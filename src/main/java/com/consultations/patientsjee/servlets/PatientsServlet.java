@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/")
+@WebServlet("/patientsList")
 public class PatientsServlet extends HttpServlet {
 
     private ConsultationService consultationService;
@@ -20,6 +20,7 @@ public class PatientsServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+        patientDao = new PatientDaoImpl();
         consultationService = new ConsultationService(patientDao);
     }
 

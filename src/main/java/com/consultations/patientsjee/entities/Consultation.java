@@ -33,7 +33,7 @@ public class Consultation {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    @OneToOne(mappedBy = "consultation")
+    @OneToOne
     @JoinColumn(name = "medical_form_id")
     private MedicalForm medicalForm;
 

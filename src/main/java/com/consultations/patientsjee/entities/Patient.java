@@ -28,9 +28,10 @@ public class Patient {
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(name = "birth_date",nullable = false)
     private Date birthDate;
 
+    @Column(name = "image_url")
     private String imageUrl;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
