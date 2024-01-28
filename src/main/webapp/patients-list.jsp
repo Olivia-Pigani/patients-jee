@@ -29,6 +29,7 @@
             <td>${patient.getFirstName()}</td>
             <td>${patient.getBirthDate()}</td>
             <td>${patient.getImageUrl()}</td>
+            <td><a href="details?id=${patient.getId()}" type="button" class="btn btn-secondary">Details</a></td>
         </tr>
         </tbody>
         </c:forEach>

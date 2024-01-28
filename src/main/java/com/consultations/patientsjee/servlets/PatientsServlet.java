@@ -1,6 +1,7 @@
 package com.consultations.patientsjee.servlets;
 
 import com.consultations.patientsjee.dao.impl.PatientDaoImpl;
+import com.consultations.patientsjee.entities.Patient;
 import com.consultations.patientsjee.service.ConsultationService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -32,8 +33,20 @@ public class PatientsServlet extends HttpServlet {
             case "/patientsList":
                 patientsList(req,resp);
                 break;
+            case "/details":
+//                getPatientDetails(req,resp);
+                break;
         }
 
+    }
+
+    private void getPatientDetails(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+       if (req.getParameter("id") != null){
+           long id = Long.parseLong(req.getParameter("id"));
+           Patient patient = consultationService.getPatientById(id);
+           req.setAttribute("patient", patient);
+           req.getRequestDispatcher("produit-details.jsp").forward(req,resp);
+       }
     }
 
     private void patientsList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
