@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/patientsList")
+@WebServlet(name = "patientsList", urlPatterns = "/patientslist")
 public class PatientsServlet extends HttpServlet {
 
     private ConsultationService consultationService;
@@ -32,7 +32,7 @@ public class PatientsServlet extends HttpServlet {
         //dofilter !
 
         switch (action){
-            case "/patientsList":
+            case "/patientslist":
                 patientsList(req,resp);
                 break;
             case "/details":
