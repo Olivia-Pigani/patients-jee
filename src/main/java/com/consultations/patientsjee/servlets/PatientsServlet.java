@@ -29,6 +29,8 @@ public class PatientsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
 
+        //dofilter !
+
         switch (action){
             case "/patientsList":
                 patientsList(req,resp);
