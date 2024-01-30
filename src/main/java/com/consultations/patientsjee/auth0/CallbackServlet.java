@@ -11,26 +11,26 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.naming.NamingException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-@WebServlet(urlPatterns = "/callback" )
+@WebServlet(urlPatterns = "/callback")
 public class CallbackServlet extends HttpServlet {
-
     private String redirectOnSuccess;
     private String redirectOnFail;
     private AuthenticationController authenticationController;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        redirectOnSuccess = "/portal/home";
-        redirectOnFail = "/login";
+    public void init() throws ServletException {
+        super.init();
+        redirectOnSuccess = "/patientdetails";
+        redirectOnFail = "/auth";
+
         try {
-            authenticationController = AuthenticationControllerProvider.getInstance(config);
-        } catch (UnsupportedEncodingException e) {
-
-
+            authenticationController = AuthenticationControllerProvider.getInstance();
+        } catch (NamingException | UnsupportedEncodingException e) {
+            throw new ServletException("Error initializing AuthenticationController", e);
         }
     }
 
@@ -47,9 +47,9 @@ public class CallbackServlet extends HttpServlet {
     private void handle(HttpServletRequest req, HttpServletResponse res) throws IOException {
         try {
             // Parse the request
-            Tokens tokens = authenticationController.handle((javax.servlet.http.HttpServletRequest) req, (javax.servlet.http.HttpServletResponse) res);
-            SessionUtils.set((javax.servlet.http.HttpServletRequest) req, "accessToken", tokens.getAccessToken());
-            SessionUtils.set((javax.servlet.http.HttpServletRequest) req, "idToken", tokens.getIdToken());
+            Tokens tokens = authenticationController.handle( req,  res);
+            SessionUtils.set( req, "accessToken", tokens.getAccessToken());
+            SessionUtils.set( req, "idToken", tokens.getIdToken());
             res.sendRedirect(redirectOnSuccess);
         } catch (IdentityVerificationException e) {
             e.printStackTrace();

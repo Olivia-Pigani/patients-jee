@@ -5,6 +5,9 @@ import com.auth0.jwk.JwkProvider;
 import com.auth0.jwk.JwkProviderBuilder;
 import jakarta.servlet.ServletConfig;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.io.UnsupportedEncodingException;
 
 public class AuthenticationControllerProvider {
@@ -14,11 +17,16 @@ public class AuthenticationControllerProvider {
     private static AuthenticationController INSTANCE;
 
     // if multiple threads may call this, synchronize this method and consider double locking
-    static AuthenticationController getInstance(ServletConfig config) throws UnsupportedEncodingException {
+    static AuthenticationController getInstance() throws NamingException, UnsupportedEncodingException {
         if (INSTANCE == null) {
-            String domain = config.getServletContext().getInitParameter("com.auth0.domain");
-            String clientId = config.getServletContext().getInitParameter("com.auth0.clientId");
-            String clientSecret = config.getServletContext().getInitParameter("com.auth0.clientSecret");
+
+            Context initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+
+            String domain = (String) envCtx.lookup("auth0/domain");
+            String clientId = (String) envCtx.lookup("auth0/clientId");
+            String clientSecret = (String) envCtx.lookup("auth0/clientSecret");
 
             if (domain == null || clientId == null || clientSecret == null) {
                 throw new IllegalArgumentException("Missing domain, clientId, or clientSecret. Did you update src/main/webapp/WEB-INF/web.xml?");
