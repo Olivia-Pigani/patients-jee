@@ -3,8 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-.env
-.env
+/src/main/resources/META-INF/context.xml
 
 ### IntelliJ IDEA ###
 .idea/
