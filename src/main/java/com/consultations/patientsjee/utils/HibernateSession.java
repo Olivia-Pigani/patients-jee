@@ -1,23 +1,18 @@
-package com.consultations.patientsjee.dao;
+package com.consultations.patientsjee.utils;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.boot.registry.internal.StandardServiceRegistryImpl;
 
-public abstract class InitDao {
-    public StandardServiceRegistry registry;
+public class HibernateSession {
 
-    public SessionFactory sessionFactory;
+    private static StandardServiceRegistry registry;
+    private static SessionFactory sessionFactory;
 
-
-    public InitDao() {
+    public static SessionFactory getSessionFactory() {
         registry = new StandardServiceRegistryBuilder().configure().build();
         sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        return sessionFactory;
     }
-
-
-
 }

@@ -1,8 +1,9 @@
 package com.consultations.patientsjee.servlets;
 
-import com.consultations.patientsjee.dao.impl.PatientDaoImpl;
+import com.consultations.patientsjee.dao.impl.PatientRepository;
 import com.consultations.patientsjee.entities.Patient;
-import com.consultations.patientsjee.service.ConsultationService;
+import com.consultations.patientsjee.service.PatientService;
+import com.consultations.patientsjee.utils.HibernateSession;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,15 +15,13 @@ import java.io.IOException;
 @WebServlet(name = "patientsList", urlPatterns = "/patientslist")
 public class PatientsServlet extends HttpServlet {
 
-    private ConsultationService consultationService;
 
-    private PatientDaoImpl patientDao;
-
+private PatientService patientService;
 
     @Override
-    public void init() throws ServletException {
-        patientDao = new PatientDaoImpl();
-        consultationService = new ConsultationService(patientDao);
+    public void init() {
+        patientService = new PatientService(new PatientRepository(),HibernateSession.getSessionFactory() );
+
     }
 
     @Override
@@ -45,14 +44,14 @@ public class PatientsServlet extends HttpServlet {
     private void getPatientDetails(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        if (req.getParameter("id") != null){
            long id = Long.parseLong(req.getParameter("id"));
-           Patient patient = consultationService.getPatientById(id);
+           Patient patient = patientService.getPatientById(id);
            req.setAttribute("patient", patient);
            req.getRequestDispatcher("produit-details.jsp").forward(req,resp);
        }
     }
 
     private void patientsList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("patients",consultationService.getAllPatients());
+        req.setAttribute("patients",patientService.getAllPatients());
         req.getRequestDispatcher("patients-list.jsp").forward(req,resp);
     }
 
