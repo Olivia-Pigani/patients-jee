@@ -17,7 +17,6 @@ public class PatientRepository extends Repository<Patient> {
 
     @Override
     public List<Patient> getAll() {
-
         Query<Patient> query = session.createQuery("from Patient ", Patient.class);
         return query.getResultList();
     }

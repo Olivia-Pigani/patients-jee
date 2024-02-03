@@ -11,7 +11,6 @@ import java.util.List;
 
 public class PatientService extends HibernateSession {
 
-    private Session session = null;
     private Transaction tx = null;
     private Repository<Patient> patientRepository;
 
@@ -20,56 +19,47 @@ public class PatientService extends HibernateSession {
         this.patientRepository = patientRepository;
     }
 
-    public void getSession() {
-        session = HibernateSession.getSessionFactory().openSession();
-    }
-
-    public void closeSession() {
-        session.close();
-    }
-
-
-
     public List<Patient> getAllPatients() {
         List<Patient> patientList = new ArrayList<>();
-        try {
-            getSession();
+        try (Session session = HibernateSession.getSessionFactory().openSession()) {
             patientRepository.setSession(session);
 
             tx = session.beginTransaction();
             patientList = patientRepository.getAll();
             tx.commit();
+
+
         } catch (Exception e) {
-            if (tx!=null){
+            if (tx != null) {
                 System.out.println("There is no patients !");
                 tx.rollback();
                 e.printStackTrace();
             }
-        }finally {
-            closeSession();
         }
+
         return patientList;
     }
 
     public Patient getPatientById(long patientId) {
         Patient patientToFind = new Patient();
-        try {
+        try (Session session = HibernateSession.getSessionFactory().openSession()){
+            patientRepository.setSession(session);
+
+            tx = session.beginTransaction();
             patientToFind = patientRepository.getById(patientId);
-            if (patientToFind != null) {
-                return patientToFind;
-            }
+            tx.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            if (tx != null) {
+                System.out.println("Can't find the patient ! ");
+                tx.rollback();
+                e.printStackTrace();
+            }
         }
-        System.out.println("Can't find the patient ! ");
         return patientToFind;
     }
 
     public boolean addAPatient(Patient newPatient) {
-        tx = null;
-        session = null;
-        try {
-            getSession();
+        try (Session session = HibernateSession.getSessionFactory().openSession()){
             patientRepository.setSession(session);
 
             tx = session.beginTransaction();
@@ -81,23 +71,17 @@ public class PatientService extends HibernateSession {
                 tx.rollback();
                 e.printStackTrace();
             }
-        } finally {
-            closeSession();
         }
         return false;
     }
 
     public boolean deleteAPatient(long patientId) {
-        tx = null;
-        session = null;
-
-        try {
-            getSession();
-
-            Patient patient = patientRepository.getById(patientId);
-            if (patient != null) {
+        try (Session session = HibernateSession.getSessionFactory().openSession()){
+            patientRepository.setSession(session);
+            Patient patientToFind = patientRepository.getById(patientId);
+            if (patientToFind != null) {
                 tx = session.beginTransaction();
-                patientRepository.delete(patient);
+                patientRepository.delete(patientToFind);
                 tx.commit();
                 return true;
             } else {
@@ -108,19 +92,15 @@ public class PatientService extends HibernateSession {
                 tx.rollback();
                 e.printStackTrace();
             }
-        } finally {
-            closeSession();
         }
         return false;
     }
 
 
     public boolean updateAPatient(long patientId, Patient updatedPatient) {
-        tx = null;
-        session = null;
+        try (Session session = HibernateSession.getSessionFactory().openSession()) {
+            patientRepository.setSession(session);
 
-        try {
-            getSession();
             Patient patientToUpdate = patientRepository.getById(patientId);
             if (patientToUpdate != null) {
                 tx = session.beginTransaction();
@@ -138,8 +118,6 @@ public class PatientService extends HibernateSession {
                 tx.rollback();
                 e.printStackTrace();
             }
-        } finally {
-            closeSession();
         }
         return false;
     }
