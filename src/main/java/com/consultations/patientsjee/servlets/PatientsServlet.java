@@ -1,5 +1,5 @@
 package com.consultations.patientsjee.servlets;
-import com.consultations.patientsjee.dao.impl.PatientRepository;
+import com.consultations.patientsjee.dao.ext.PatientRepository;
 import com.consultations.patientsjee.entities.Patient;
 import com.consultations.patientsjee.service.PatientService;
 import com.consultations.patientsjee.utils.HibernateSession;
@@ -18,11 +18,9 @@ public class PatientsServlet extends HttpServlet {
 
 private PatientService patientService;
 
-private SessionFactory sessionFactory;
-
     @Override
     public void init() {
-        patientService = new PatientService(new PatientRepository(sessionFactory),HibernateSession.getSessionFactory() );
+        patientService = new PatientService(new PatientRepository());
 
     }
 

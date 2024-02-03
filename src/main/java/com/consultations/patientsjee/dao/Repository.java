@@ -1,5 +1,6 @@
 package com.consultations.patientsjee.dao;
 
+import com.consultations.patientsjee.utils.HibernateSession;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Session;
@@ -11,10 +12,6 @@ import java.util.List;
 public abstract class Repository<T>{
 
     protected Session session;
-
-    public Session getSession() {
-        return session;
-    }
 
 
      public void add(T element){
