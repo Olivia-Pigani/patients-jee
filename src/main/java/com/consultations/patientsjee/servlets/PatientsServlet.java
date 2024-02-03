@@ -1,5 +1,4 @@
 package com.consultations.patientsjee.servlets;
-//test git
 import com.consultations.patientsjee.dao.impl.PatientRepository;
 import com.consultations.patientsjee.entities.Patient;
 import com.consultations.patientsjee.service.PatientService;
@@ -9,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 
@@ -18,9 +18,11 @@ public class PatientsServlet extends HttpServlet {
 
 private PatientService patientService;
 
+private SessionFactory sessionFactory;
+
     @Override
     public void init() {
-        patientService = new PatientService(new PatientRepository(),HibernateSession.getSessionFactory() );
+        patientService = new PatientService(new PatientRepository(sessionFactory),HibernateSession.getSessionFactory() );
 
     }
 

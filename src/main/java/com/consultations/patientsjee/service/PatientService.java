@@ -90,6 +90,8 @@ public class PatientService extends HibernateSession {
                 tx.rollback();
                 e.printStackTrace();
             }
+        }finally {
+            session.close();
         }
         return false;
     }
@@ -116,6 +118,8 @@ public class PatientService extends HibernateSession {
                 tx.rollback();
                 e.printStackTrace();
             }
+        }finally {
+            session.close();
         }
         return false;
     }

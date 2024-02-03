@@ -7,12 +7,30 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class HibernateSession {
 
-    private static StandardServiceRegistry registry;
-    private static SessionFactory sessionFactory;
+    private static StandardServiceRegistry registry = null;
+    private static volatile SessionFactory sessionFactory = null;
+
 
     public static SessionFactory getSessionFactory() {
-        registry = new StandardServiceRegistryBuilder().configure().build();
-        sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+
+        if (sessionFactory == null) {
+
+            synchronized (HibernateSession.class) {
+                if (sessionFactory == null) {
+                    registry = new StandardServiceRegistryBuilder().configure().build();
+                    sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+                }
+            }
+
+
+        }
         return sessionFactory;
+    }
+
+    public static void closeSession(){
+        if (registry != null){
+            StandardServiceRegistryBuilder.destroy(registry);
+            sessionFactory = null;
+        }
     }
 }
