@@ -1,4 +1,4 @@
-package com.consultations.patientsjee.entities;
+package com.consultations.patientsjee.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

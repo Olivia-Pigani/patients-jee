@@ -1,14 +1,12 @@
-package com.consultations.patientsjee.servlets;
-import com.consultations.patientsjee.dao.ext.PatientRepository;
-import com.consultations.patientsjee.entities.Patient;
+package com.consultations.patientsjee.servlet;
+import com.consultations.patientsjee.repository.ext.PatientRepository;
+import com.consultations.patientsjee.entity.Patient;
 import com.consultations.patientsjee.service.PatientService;
-import com.consultations.patientsjee.utils.HibernateSession;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 
@@ -28,14 +26,12 @@ private PatientService patientService;
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
 
-        //dofilter !
-
         switch (action){
             case "/patientslist":
                 patientsList(req,resp);
                 break;
             case "/details":
-//                getPatientDetails(req,resp);
+                getPatientDetails(req,resp);
                 break;
         }
 

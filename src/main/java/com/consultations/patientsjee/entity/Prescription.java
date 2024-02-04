@@ -1,4 +1,4 @@
-package com.consultations.patientsjee.entities;
+package com.consultations.patientsjee.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,20 +12,21 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "medical_forms")
-public class MedicalForm {
+@Table(name = "prescriptions")
+public class Prescription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "care_type", nullable = false)
-    private String careType;
+    @Column(name = "pill_type",nullable = false)
+    private String pillType;
 
-
+    @Column(nullable = false)
     private int duration;
 
-    @OneToOne(mappedBy = "medicalForm")
+    @OneToOne
+    @JoinColumn(name = "consultation_id")
     private Consultation consultation;
 
 }

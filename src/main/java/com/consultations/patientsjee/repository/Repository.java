@@ -1,6 +1,5 @@
-package com.consultations.patientsjee.dao;
+package com.consultations.patientsjee.repository;
 
-import com.consultations.patientsjee.utils.HibernateSession;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Session;

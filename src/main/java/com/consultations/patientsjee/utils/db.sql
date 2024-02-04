@@ -35,12 +35,25 @@ CREATE TABLE IF NOT EXISTS prescriptions (
 );
 
 
-insert into  patients (last_name,first_name,birth_date,image_url)
+-- insert into  patients (last_name,first_name,birth_date,image_url)
+-- values
+-- ('Popov', 'Vadim', "1975-05-15",'https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=826&t=st=1706192993~exp=1706193593~hmac=a640026012b274e821b4b273acae9a804eb77191ccef63b5210d44effe47809b' ),
+-- ('Yusuf', 'Memhet', "1998-06-22",'https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=826&t=st=1706192993~exp=1706193593~hmac=a640026012b274e821b4b273acae9a804eb77191ccef63b5210d44effe47809b' ),
+-- ('Adams', 'Wednesday', "2008-10-01",'https://img.freepik.com/free-vector/illustration-customer-service-concept_53876-5882.jpg?t=st=1706192975~exp=1706193575~hmac=1923f76a9fb4827c6f0216032cfe646d961a25ac28f640848ce1795f257cc3f8' ),
+-- ('Stark', 'Arya', "1985-02-02",'https://img.freepik.com/free-vector/illustration-customer-service-concept_53876-5882.jpg?t=st=1706192975~exp=1706193575~hmac=1923f76a9fb4827c6f0216032cfe646d961a25ac28f640848ce1795f257cc3f8' );
+
+
+select * from patients;
+
+create table if not exists subscribers(
+id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+user_name varchar(120) not null,
+email varchar(120) not null,
+`password` varchar(250) not null
+);
+
+insert into subscribers(user_name, email, `password`)
 values
-('Popov', 'Vadim', "1975-05-15",'https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=826&t=st=1706192993~exp=1706193593~hmac=a640026012b274e821b4b273acae9a804eb77191ccef63b5210d44effe47809b' ),
-('Yusuf', 'Memhet', "1998-06-22",'https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=826&t=st=1706192993~exp=1706193593~hmac=a640026012b274e821b4b273acae9a804eb77191ccef63b5210d44effe47809b' ),
-('Adams', 'Wednesday', "2008-10-01",'https://img.freepik.com/free-vector/illustration-customer-service-concept_53876-5882.jpg?t=st=1706192975~exp=1706193575~hmac=1923f76a9fb4827c6f0216032cfe646d961a25ac28f640848ce1795f257cc3f8' ),
-('Stark', 'Arya', "1985-02-02",'https://img.freepik.com/free-vector/illustration-customer-service-concept_53876-5882.jpg?t=st=1706192975~exp=1706193575~hmac=1923f76a9fb4827c6f0216032cfe646d961a25ac28f640848ce1795f257cc3f8' );
+('example','example@gmail.com','1234aA@');
 
-
-select * from consultations;
+select * from subscribers;
