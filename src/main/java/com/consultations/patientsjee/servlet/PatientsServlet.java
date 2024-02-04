@@ -42,7 +42,7 @@ private PatientService patientService;
            long id = Long.parseLong(req.getParameter("id"));
            Patient patient = patientService.getPatientById(id);
            req.setAttribute("patient", patient);
-           req.getRequestDispatcher("produit-details.jsp").forward(req,resp);
+           req.getRequestDispatcher("patient-details.jsp").forward(req,resp);
        }
     }
 

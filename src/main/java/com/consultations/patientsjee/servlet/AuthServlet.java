@@ -20,12 +20,15 @@ public class AuthServlet extends HttpServlet {
 
     private UserService userService;
 
-
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        userService = new UserService(new UserRepository());
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);
-        userService = new UserService(new UserRepository());
 
     }
 
@@ -65,8 +68,18 @@ public class AuthServlet extends HttpServlet {
 
 
     }
-    private void signInLogic(HttpServletRequest req, HttpServletResponse resp) {
+    private void signInLogic(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
 
+        User user = userService.getUserWithEmailAndPassword(email,password);
+
+        if (user != null){
+            HttpSession session = req.getSession();
+            session.setAttribute("user",user);
+
+            resp.sendRedirect("patient-details.jsp");
+        }
 
 
     }
