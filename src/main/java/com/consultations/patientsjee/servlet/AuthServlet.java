@@ -19,8 +19,12 @@ import java.io.IOException;
 public class AuthServlet extends HttpServlet {
 
 
-    @Inject
+
     private UserService userService;
+
+    public AuthServlet() {
+        userService = new UserService(new UserRepository());
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

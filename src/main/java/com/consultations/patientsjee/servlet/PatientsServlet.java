@@ -14,9 +14,12 @@ import java.io.IOException;
 
 @WebServlet(name = "patientsList", urlPatterns = "/patientslist")
 public class PatientsServlet extends HttpServlet {
-    @Inject
+
     private PatientService patientService;
 
+    public PatientsServlet() {
+        patientService = new PatientService(new PatientRepository());
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
