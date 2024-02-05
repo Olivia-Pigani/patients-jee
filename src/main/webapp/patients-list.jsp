@@ -29,7 +29,7 @@
             <td>${patient.getFirstName()}</td>
             <td>${patient.getBirthDate()}</td>
             <td>${patient.getImageUrl()}</td>
-            <td><a href="authservlet?action=signin&redirect=patient-details.jsp&patientId=${patient.id}" type="button" class="btn btn-secondary">Details</a></td>
+            <td><a href="patient-details.jsp?patientId=${patient.id}" type="button" class="btn btn-secondary">Details</a></td>
         </tr>
         </tbody>
         </c:forEach>

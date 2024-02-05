@@ -5,6 +5,7 @@ import com.consultations.patientsjee.repository.ext.PatientRepository;
 import com.consultations.patientsjee.repository.ext.UserRepository;
 import com.consultations.patientsjee.service.PatientService;
 import com.consultations.patientsjee.service.UserService;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,17 +19,13 @@ import java.io.IOException;
 public class AuthServlet extends HttpServlet {
 
 
+    @Inject
     private UserService userService;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        userService = new UserService(new UserRepository());
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);
+
 
     }
 
@@ -52,7 +49,6 @@ public class AuthServlet extends HttpServlet {
     }
 
     private void signUpLogic(HttpServletRequest req, HttpServletResponse resp) {
-        boolean isSubscribe;
 
         String userName = req.getParameter("name");
         String email = req.getParameter("email");
@@ -63,7 +59,7 @@ public class AuthServlet extends HttpServlet {
         newUser.setEmail(email);
         newUser.setPassword(password);
 
-        isSubscribe = userService.addAnUser(newUser);
+        userService.addAnUser(newUser);
 
 
 
