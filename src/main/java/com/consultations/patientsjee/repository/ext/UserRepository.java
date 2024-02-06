@@ -27,5 +27,12 @@ public class UserRepository extends Repository<User> {
         return userQuery.getSingleResult();
     }
 
+    public User verifyIfAnEmailExist(String email){
+        Query<User> userQuery = session.createQuery("from User where email = :email", User.class);
+        userQuery.setParameter("email",email);
+        return userQuery.getSingleResult();
+
+    }
+
 
 }

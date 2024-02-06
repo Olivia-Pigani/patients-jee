@@ -39,8 +39,33 @@
 
   <div>
 
+    <div>
+
+
+
+    </div>
+
     <a href="?mode=signup">Sign Up</a>
   </div>
+
+<c:if test="${param.error != null}">
+  <c:choose>
+    <c:when test="${param.error == 'alreadySignUped'}">
+  <h3>You already have an account !</h3>
+    </c:when>
+  </c:choose>
+</c:if>
+
+
+
+
+
+
+
+
+
+
+
 <% } else { %>
 
   <form action="authservlet" method="POST">
@@ -65,6 +90,14 @@
 
     <a href="?mode=signin">Sign In</a>
   </div>
+
+  <c:if test="${param.error != null}">
+    <c:choose>
+      <c:when test="${param.error == 'doesntHaveAccount'}">
+        <h3>You must have an account !</h3>
+      </c:when>
+    </c:choose>
+  </c:if>
 
   <% } %>
 </div>

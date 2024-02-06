@@ -27,6 +27,7 @@ public class UserService extends HibernateSession {
             userRepository.setSession(session);
 
             tx = session.beginTransaction();
+
             userRepository.add(newUser);
             tx.commit();
             return true;
@@ -82,6 +83,18 @@ public class UserService extends HibernateSession {
             return userToFind = castedRepo.getUserWithEmailAndPassword(email,password);
 
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public User verifyIfAnEmailExist(String email){
+        User userToFind = new User();
+        try (Session session = HibernateSession.getSessionFactory().openSession()){
+            UserRepository castedRepo = (UserRepository) userRepository;
+            castedRepo.setSession(session);
+            return userToFind = castedRepo.verifyIfAnEmailExist(email);
         }catch (Exception e){
             e.printStackTrace();
         }

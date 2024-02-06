@@ -52,7 +52,7 @@ public class AuthServlet extends HttpServlet {
         }
     }
 
-    private void signUpLogic(HttpServletRequest req, HttpServletResponse resp) {
+    private void signUpLogic(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String userName = req.getParameter("name");
         String email = req.getParameter("email");
@@ -63,8 +63,15 @@ public class AuthServlet extends HttpServlet {
         newUser.setEmail(email);
         newUser.setPassword(password);
 
+        if (userService.verifyIfAnEmailExist(email) == null){
+            System.out.println(email);
+            if (userService.addAnUser(newUser)){
+                resp.sendRedirect("patient-details.jsp");
+            }
+        }else {
+            resp.sendRedirect("auth-form.jsp?mode=signin&error=alreadySignUped");
+        }
 
-        userService.addAnUser(newUser);
 
 
 
@@ -80,6 +87,8 @@ public class AuthServlet extends HttpServlet {
             session.setAttribute("user",user);
 
             resp.sendRedirect("patient-details.jsp");
+        } else {
+            resp.sendRedirect("auth-form.jsp?mode=signup&error=doesntHaveAccount");
         }
 
 
