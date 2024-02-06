@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.query.Query;
 
 import java.io.IOException;
 
@@ -36,7 +37,6 @@ public class AuthServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
         String action = req.getParameter("action");
 
         switch (action){
@@ -62,6 +62,7 @@ public class AuthServlet extends HttpServlet {
         newUser.setUserName(userName);
         newUser.setEmail(email);
         newUser.setPassword(password);
+
 
         userService.addAnUser(newUser);
 
