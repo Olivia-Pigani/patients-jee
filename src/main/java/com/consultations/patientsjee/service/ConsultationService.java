@@ -2,6 +2,7 @@ package com.consultations.patientsjee.service;
 
 import com.consultations.patientsjee.entity.Consultation;
 import com.consultations.patientsjee.repository.ext.ConsultationRepository;
+import com.consultations.patientsjee.repository.ext.UserRepository;
 import com.consultations.patientsjee.utils.HibernateSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -20,15 +21,14 @@ public class ConsultationService extends HibernateSession {
         this.consultationRepository = consultationRepository;
     }
 
-    public List<Consultation> getAllConsultations() {
+    public List<Consultation> getAllConsultations(Long patientId) {
         List<Consultation> consultationList = new ArrayList<>();
         try (Session session = HibernateSession.getSessionFactory().openSession()) {
-            consultationRepository.setSession(session);
-
+            ConsultationRepository castedRepo = (ConsultationRepository) consultationRepository;
+            castedRepo.setSession(session);
             tx = session.beginTransaction();
-            consultationList = consultationRepository.getAll();
+            consultationList = castedRepo.getAllConsultationByPatient(patientId);
             tx.commit();
-
 
         } catch (Exception e) {
             if (tx != null) {
@@ -41,22 +41,22 @@ public class ConsultationService extends HibernateSession {
         return consultationList;
     }
 
-    public Consultation getConsultationById(long consultationId) {
-        Consultation consultationToFind = new Consultation();
+    public List<Consultation> getConsultationsById(long consultationId) {
+        List<Consultation> consultationsToFind = new ArrayList<>();
         try (Session session = HibernateSession.getSessionFactory().openSession()){
             consultationRepository.setSession(session);
 
             tx = session.beginTransaction();
-            consultationToFind = consultationRepository.getById(consultationId);
+            consultationsToFind = consultationRepository.getAllConsultationByPatient(consultationId);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
-                System.out.println("Can't find the consultation ! ");
+                System.out.println("Can't find consultations ! ");
                 tx.rollback();
                 e.printStackTrace();
             }
         }
-        return consultationToFind;
+        return consultationsToFind;
     }
 
     public boolean addAConsultation(Consultation newConsultation) {

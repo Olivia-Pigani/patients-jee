@@ -26,36 +26,16 @@
         </div>
     </div>
 
-    <div>
-
-        <h2>Consultations</h2>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Doctor's name</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr>
-                <th></th>
-                <td>${consultation.dateConsultation}</td>
-                <td> Dr. ${consultation.doctorFirstName} ${consultation.doctorLastName}</td>
-                <td><a href="${pageContext.request.contextPath}/consulationdetails?id=${consultation.id}" type="button" class="btn btn-secondary">Details</a></td>
-
-            </tr>
-            </tbody>
-        </table>
-
-
-    </div>
 
 
 
 </div>
 
+<div>
+
+    <%@include file="../../consultations-list.jsp"%>
+
+</div>
 
 
 </body>
