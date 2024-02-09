@@ -8,6 +8,6 @@
 <h1><%= "Menu" %></h1>
 <br/>
 <a href="${pageContext.request.contextPath}/patientslist">All patients</a>
-<%--auth page--%>
+<a href="${pageContext.request.contextPath}/signform">Sign in</a>
 </body>
 </html>

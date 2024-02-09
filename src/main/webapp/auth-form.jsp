@@ -22,7 +22,7 @@
   <h1><%=mode.equals("signin")? "Sign In" : "Sign Up" %></h1>
 
   <% if (mode.equals("signin")) { %>
-  <form action="authservlet" method="POST">
+  <form action="signform" method="POST">
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Email address</label>
       <input type="email" class="form-control" id="exampleInputEmail" name="email" aria-describedby="emailHelp" required>
@@ -68,7 +68,7 @@
 
 <% } else { %>
 
-  <form action="authservlet" method="POST">
+  <form action="signform" method="POST">
     <div class="mb-3">
       <label for="exampleInputPassword1" class="form-label">Name</label>
       <input type="text" class="form-control" id="name" name="name" required>

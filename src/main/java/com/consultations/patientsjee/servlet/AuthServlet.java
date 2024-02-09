@@ -6,6 +6,7 @@ import com.consultations.patientsjee.repository.ext.UserRepository;
 import com.consultations.patientsjee.service.PatientService;
 import com.consultations.patientsjee.service.UserService;
 import jakarta.inject.Inject;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,7 +17,7 @@ import org.hibernate.query.Query;
 
 import java.io.IOException;
 
-@WebServlet(name = "AuthServlet", urlPatterns = "/authservlet")
+@WebServlet(name = "AuthServlet", urlPatterns = "/signform")
 public class AuthServlet extends HttpServlet {
 
 
@@ -29,8 +30,7 @@ public class AuthServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
-
+        req.getRequestDispatcher("auth-form.jsp").forward(req,resp);
 
     }
 
@@ -64,12 +64,11 @@ public class AuthServlet extends HttpServlet {
         newUser.setPassword(password);
 
         if (userService.verifyIfAnEmailExist(email) == null){
-            System.out.println(email);
             if (userService.addAnUser(newUser)){
                 resp.sendRedirect("patient-details.jsp");
             }
         }else {
-            resp.sendRedirect("auth-form.jsp?mode=signin&error=alreadySignUped");
+            resp.sendRedirect(req.getContextPath() +"/signform?mode=signin&error=alreadySignUped");
         }
 
 
@@ -88,7 +87,7 @@ public class AuthServlet extends HttpServlet {
 
             resp.sendRedirect("patient-details.jsp");
         } else {
-            resp.sendRedirect("auth-form.jsp?mode=signup&error=doesntHaveAccount");
+            resp.sendRedirect(req.getContextPath() +"/signform?mode=signup&error=doesntHaveAccount");
         }
 
 

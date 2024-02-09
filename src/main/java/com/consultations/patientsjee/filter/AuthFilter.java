@@ -17,10 +17,10 @@ public class AuthFilter implements Filter {
         HttpServletRequest request =(HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(false); // get the actual session and doesn't produce a new one if it not exists
 
         if (session == null || session.getAttribute("user") == null){
-            response.sendRedirect(request.getContextPath() + "/auth-form.jsp");
+            response.sendRedirect(request.getContextPath() + "/signform");
         }else {
             filterChain.doFilter(request,response);
         }
