@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "patientsServlet", urlPatterns = "/patientslist")
+@WebServlet(name = "patientsServlet", urlPatterns = {"/patientslist","/patientdetails"})
 public class PatientsServlet extends HttpServlet {
 
     private PatientService patientService;
@@ -29,7 +29,7 @@ public class PatientsServlet extends HttpServlet {
             case "/patientslist":
                 patientsList(req, resp);
                 break;
-            case "/details":
+            case "/patientdetails":
                 getPatientDetails(req, resp);
                 break;
         }
@@ -41,7 +41,9 @@ public class PatientsServlet extends HttpServlet {
             long id = Long.parseLong(req.getParameter("id"));
             Patient patient = patientService.getPatientById(id);
             req.setAttribute("patient", patient);
-            req.getRequestDispatcher("patient-details.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/patient-details.jsp").forward(req, resp);
+        }else {
+            resp.sendRedirect(req.getContextPath()+"/patientslist");
         }
     }
 

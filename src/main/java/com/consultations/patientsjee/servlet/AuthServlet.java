@@ -83,9 +83,16 @@ public class AuthServlet extends HttpServlet {
 
         if (user != null){
             HttpSession session = req.getSession();
-            session.setAttribute("user",user);
+            session.setAttribute("user", user);
 
-            resp.sendRedirect("patient-details.jsp");
+            String redirectUrl = (String) session.getAttribute("urlBeforeRedirect");
+            session.removeAttribute("urlBeforeRedirect");
+
+            if (redirectUrl != null && !redirectUrl.isEmpty()) {
+                resp.sendRedirect(redirectUrl);
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/patientslist");
+            }
         } else {
             resp.sendRedirect(req.getContextPath() +"/signform?mode=signup&error=doesntHaveAccount");
         }

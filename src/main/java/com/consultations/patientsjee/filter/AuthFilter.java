@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter("/patient-details.jsp")
+@WebFilter("/patientdetails")
 public class AuthFilter implements Filter {
 
 
@@ -20,6 +20,14 @@ public class AuthFilter implements Filter {
         HttpSession session = request.getSession(false); // get the actual session and doesn't produce a new one if it not exists
 
         if (session == null || session.getAttribute("user") == null){
+
+            //memorize requested URL
+            String requestURI = request.getRequestURI();
+            String queryString = request.getQueryString();
+            String originalUrl = requestURI + (queryString != null ? "?" + queryString : "");
+            session = request.getSession(true);
+            session.setAttribute("urlBeforeRedirect", originalUrl);
+
             response.sendRedirect(request.getContextPath() + "/signform");
         }else {
             filterChain.doFilter(request,response);
