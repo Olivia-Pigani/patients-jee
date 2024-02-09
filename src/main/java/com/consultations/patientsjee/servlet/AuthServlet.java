@@ -86,7 +86,7 @@ public class AuthServlet extends HttpServlet {
             session.setAttribute("user", user);
 
             String redirectUrl = (String) session.getAttribute("urlBeforeRedirect");
-            session.removeAttribute("urlBeforeRedirect");
+            session.removeAttribute("urlBeforeRedirect"); // clean the session after using the attribute
 
             if (redirectUrl != null && !redirectUrl.isEmpty()) {
                 resp.sendRedirect(redirectUrl);
