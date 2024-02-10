@@ -1,7 +1,11 @@
 package com.consultations.patientsjee.service;
 
 import com.consultations.patientsjee.entity.Consultation;
+import com.consultations.patientsjee.entity.MedicalForm;
+import com.consultations.patientsjee.entity.Prescription;
 import com.consultations.patientsjee.repository.ext.ConsultationRepository;
+import com.consultations.patientsjee.repository.ext.MedicalFormRepository;
+import com.consultations.patientsjee.repository.ext.PrescriptionRepository;
 import com.consultations.patientsjee.repository.ext.UserRepository;
 import com.consultations.patientsjee.utils.HibernateSession;
 import org.hibernate.Session;
@@ -16,9 +20,15 @@ public class ConsultationService extends HibernateSession {
 
     private ConsultationRepository consultationRepository;
 
+    private MedicalFormRepository medicalFormRepository;
 
-    public ConsultationService(ConsultationRepository consultationRepository) {
+    private PrescriptionRepository prescriptionRepository;
+
+
+    public ConsultationService(ConsultationRepository consultationRepository, MedicalFormRepository medicalFormRepository, PrescriptionRepository prescriptionRepository) {
         this.consultationRepository = consultationRepository;
+        this.medicalFormRepository = medicalFormRepository;
+        this.prescriptionRepository = prescriptionRepository;
     }
 
     public List<Consultation> getAllConsultations(Long patientId) {
@@ -41,15 +51,15 @@ public class ConsultationService extends HibernateSession {
         return consultationList;
     }
 
-    public Consultation getByIdOneConsultation(Long consultationId){
+    public Consultation getByIdOneConsultation(Long consultationId) {
         Consultation consultation = new Consultation();
-        try (Session session = HibernateSession.getSessionFactory().openSession()){
+        try (Session session = HibernateSession.getSessionFactory().openSession()) {
             ConsultationRepository castedRepo = (ConsultationRepository) consultationRepository;
             castedRepo.setSession(session);
             tx = session.beginTransaction();
             consultation = castedRepo.getById(consultationId);
             tx.commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             if (tx != null) {
                 System.out.println("Can't find the consultation ! ");
                 tx.rollback();
@@ -60,10 +70,9 @@ public class ConsultationService extends HibernateSession {
     }
 
 
-
     public List<Consultation> getConsultationsById(long consultationId) {
         List<Consultation> consultationsToFind = new ArrayList<>();
-        try (Session session = HibernateSession.getSessionFactory().openSession()){
+        try (Session session = HibernateSession.getSessionFactory().openSession()) {
             consultationRepository.setSession(session);
 
             tx = session.beginTransaction();
@@ -80,7 +89,7 @@ public class ConsultationService extends HibernateSession {
     }
 
     public boolean addAConsultation(Consultation newConsultation) {
-        try (Session session = HibernateSession.getSessionFactory().openSession()){
+        try (Session session = HibernateSession.getSessionFactory().openSession()) {
             consultationRepository.setSession(session);
 
             tx = session.beginTransaction();
@@ -97,7 +106,7 @@ public class ConsultationService extends HibernateSession {
     }
 
     public boolean deleteAConsultation(long consultationId) {
-        try (Session session = HibernateSession.getSessionFactory().openSession()){
+        try (Session session = HibernateSession.getSessionFactory().openSession()) {
             consultationRepository.setSession(session);
             Consultation consultationToFind = consultationRepository.getById(consultationId);
             if (consultationToFind != null) {
@@ -141,6 +150,52 @@ public class ConsultationService extends HibernateSession {
         }
         return false;
     }
+
+
+    public List<MedicalForm> getAllMedicalFormByConsultation(Long consultationId) {
+        List<MedicalForm> medicalFormList = new ArrayList<>();
+        try (Session session = HibernateSession.getSessionFactory().openSession()) {
+            MedicalFormRepository castedRepo = (MedicalFormRepository) medicalFormRepository;
+            castedRepo.setSession(session);
+            tx = session.beginTransaction();
+            medicalFormList = castedRepo.getAllMedicalFormByConsultation(consultationId);
+            tx.commit();
+
+
+        } catch (Exception e) {
+            if (tx != null) {
+                System.out.println("Can't find medical forms ! ");
+                tx.rollback();
+                e.printStackTrace();
+            }
+        }
+        return medicalFormList;
+
+
+    }
+
+    public List<Prescription> getAllPrescriptionOfAConsultation(Long consultationId){
+        List<Prescription> prescriptionList = new ArrayList<>();
+        try (Session session = HibernateSession.getSessionFactory().openSession()) {
+            PrescriptionRepository castedRepo = (PrescriptionRepository) prescriptionRepository;
+            castedRepo.setSession(session);
+            tx = session.beginTransaction();
+            prescriptionList = castedRepo.getAllPrescriptionOfAConsultation(consultationId);
+            tx.commit();
+
+
+        } catch (Exception e) {
+            if (tx != null) {
+                System.out.println("Can't find prescriptions ! ");
+                tx.rollback();
+                e.printStackTrace();
+            }
+        }
+        return prescriptionList;
+
+
+    }
+
 
 
 }
