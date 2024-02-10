@@ -48,8 +48,14 @@ private ConsultationService consultationService;
     }
 
 
-    private void getConsultationDetails(HttpServletRequest req, HttpServletResponse resp) {
+    private void getConsultationDetails(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getParameter("id") != null) {
+            long id = Long.parseLong(req.getParameter("id"));
+            Consultation consultation = consultationService.getByIdOneConsultation(id);
+            req.setAttribute("consultation", consultation);
+            req.getRequestDispatcher("WEB-INF/views/consultation-details.jsp").forward(req, resp);
 
+        }
     }
 
 

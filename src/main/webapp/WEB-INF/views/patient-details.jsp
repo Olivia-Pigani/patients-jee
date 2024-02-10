@@ -8,7 +8,7 @@
 <body>
 <%@include file="../shared/navbar.jsp"%>
 
-<div class="container-fluid mt-3 justify-content-center" >
+<div class="container-fluid mt-3 " >
 
 
 

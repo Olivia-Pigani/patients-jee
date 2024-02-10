@@ -41,6 +41,26 @@ public class ConsultationService extends HibernateSession {
         return consultationList;
     }
 
+    public Consultation getByIdOneConsultation(Long consultationId){
+        Consultation consultation = new Consultation();
+        try (Session session = HibernateSession.getSessionFactory().openSession()){
+            ConsultationRepository castedRepo = (ConsultationRepository) consultationRepository;
+            castedRepo.setSession(session);
+            tx = session.beginTransaction();
+            consultation = castedRepo.getById(consultationId);
+            tx.commit();
+        }catch (Exception e){
+            if (tx != null) {
+                System.out.println("Can't find the consultation ! ");
+                tx.rollback();
+                e.printStackTrace();
+            }
+        }
+        return consultation;
+    }
+
+
+
     public List<Consultation> getConsultationsById(long consultationId) {
         List<Consultation> consultationsToFind = new ArrayList<>();
         try (Session session = HibernateSession.getSessionFactory().openSession()){
