@@ -2,8 +2,10 @@ package com.consultations.patientsjee.servlet;
 
 import com.consultations.patientsjee.entity.Consultation;
 import com.consultations.patientsjee.repository.ext.ConsultationRepository;
+import com.consultations.patientsjee.repository.ext.MedicalFormRepository;
 import com.consultations.patientsjee.repository.ext.PatientRepository;
 import com.consultations.patientsjee.entity.Patient;
+import com.consultations.patientsjee.repository.ext.PrescriptionRepository;
 import com.consultations.patientsjee.service.ConsultationService;
 import com.consultations.patientsjee.service.PatientService;
 import jakarta.inject.Inject;
@@ -24,7 +26,7 @@ public class PatientsServlet extends HttpServlet {
 
     public PatientsServlet() {
         patientService = new PatientService(new PatientRepository());
-        consultationService = new ConsultationService(new ConsultationRepository());
+        consultationService = new ConsultationService(new ConsultationRepository(),new MedicalFormRepository(), new PrescriptionRepository());
     }
 
     @Override

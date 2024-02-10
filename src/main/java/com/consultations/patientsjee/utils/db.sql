@@ -12,7 +12,20 @@ CREATE TABLE IF NOT EXISTS patients (
 CREATE TABLE IF NOT EXISTS medical_forms (
     id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     care_type VARCHAR(500) NOT NULL,
-    duration INT
+    duration INT,
+    consultation_id bigint not null,
+    foreign key (consultation_id) references consultations(id)
+
+);
+
+CREATE TABLE IF NOT EXISTS prescriptions (
+    id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    pill_type VARCHAR(255) NOT NULL,
+    duration INT NOT NULL,
+        consultation_id bigint not null,
+
+    foreign key (consultation_id) references consultations(id)
+   
 );
 
 CREATE TABLE IF NOT EXISTS consultations (
@@ -20,19 +33,13 @@ CREATE TABLE IF NOT EXISTS consultations (
     date_consultation DATE NOT NULL,
     doctor_last_name VARCHAR(255) NOT NULL,
     doctor_first_name VARCHAR(255) NOT NULL,
-    patient_id BIGINT NOT NULL,
-    medical_form_id BIGINT NOT NULL,
-    FOREIGN KEY (patient_id) REFERENCES patients(id),
-    FOREIGN KEY (medical_form_id) REFERENCES medical_forms(id)
+    patient_id BIGINT NOT NULL
+   --  FOREIGN KEY (patient_id) REFERENCES patients(id)
 );
 
-CREATE TABLE IF NOT EXISTS prescriptions (
-    id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    pill_type VARCHAR(255) NOT NULL,
-    duration INT NOT NULL,
-    consultation_id BIGINT NOT NULL,
-    FOREIGN KEY (consultation_id) REFERENCES consultations(id)
-);
+alter table consultations add constraint fk_patient_id foreign key (patient_id) REFERENCES patients(id);
+
+
 
 
 -- insert into  patients (last_name,first_name,birth_date,image_url)
@@ -57,16 +64,16 @@ values
 ('example','example@gmail.com','1234aA@');
 
 
-INSERT INTO medical_forms (care_type, duration)
-VALUES ('General Checkup', 30);
+INSERT INTO medical_forms (care_type, duration,consultation_id)
+VALUES ('General Checkup', 30, 1);
 
-insert into consultations(date_consultation,doctor_last_name,doctor_first_name,patient_id, medical_form_id)
+insert into consultations(date_consultation,doctor_last_name,doctor_first_name,patient_id)
 values
-('2021-02-14','Anniston','Jennifer',1,1);
+('2021-02-14','Anniston','Jennifer',1);
 
 insert into prescriptions(pill_type,duration,consultation_id)
 values
-('adrenaline',25,3);
+('adrenaline',25,1);
 
 select * from consultations;
 select * from medical_forms;

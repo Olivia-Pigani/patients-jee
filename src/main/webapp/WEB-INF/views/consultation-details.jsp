@@ -22,20 +22,25 @@
     </div>
 
     <div>
+        <c:if test="${medicalForms != null}">
+        <c:forEach items="${medicalForms}" var="medicalForm">
         <h3>Medical Form</h3>
-        <p>Care Type : ${medicalform.careType}</p>
-        <p>Duration : ${medicalform.duration} days</p>
-
+        <p>Care Type : ${medicalForm.careType}</p>
+        <p>Duration : ${medicalForm.duration} days</p>
+        </c:forEach>
+        </c:if>
 
 
     </div>
    <div>
+<c:if test="${prescriptions != null}">
+    <c:forEach items="${prescriptions}" var="prescription">
         <h3>Prescription</h3>
         <p>Pills type : ${prescription.pillType}</p>
         <p>Duration : ${prescription.duration} days</p>
 
-
-
+    </c:forEach>
+</c:if>
     </div>
 
     <div>

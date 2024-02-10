@@ -1,8 +1,15 @@
 package com.consultations.patientsjee.servlet;
 
 import com.consultations.patientsjee.entity.Consultation;
+import com.consultations.patientsjee.entity.MedicalForm;
+import com.consultations.patientsjee.entity.Patient;
+import com.consultations.patientsjee.entity.Prescription;
 import com.consultations.patientsjee.repository.ext.ConsultationRepository;
+import com.consultations.patientsjee.repository.ext.MedicalFormRepository;
+import com.consultations.patientsjee.repository.ext.PatientRepository;
+import com.consultations.patientsjee.repository.ext.PrescriptionRepository;
 import com.consultations.patientsjee.service.ConsultationService;
+import com.consultations.patientsjee.service.PatientService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,9 +24,11 @@ public class ConsultationsServlet extends HttpServlet {
 
 
 private ConsultationService consultationService;
+private PatientService patientService;
 
     public ConsultationsServlet() {
-        consultationService = new ConsultationService(new ConsultationRepository());
+        consultationService = new ConsultationService(new ConsultationRepository(),new MedicalFormRepository(), new PrescriptionRepository());
+        patientService = new PatientService(new PatientRepository());
     }
 
 
@@ -52,7 +61,13 @@ private ConsultationService consultationService;
         if (req.getParameter("id") != null) {
             long id = Long.parseLong(req.getParameter("id"));
             Consultation consultation = consultationService.getByIdOneConsultation(id);
+            List<Prescription> prescriptions = consultationService.getAllPrescriptionOfAConsultation(id);
+            List<MedicalForm> medicalForms = consultationService.getAllMedicalFormByConsultation(id);
+            Patient patient = patientService.getAPatientByConsultationId(id);
             req.setAttribute("consultation", consultation);
+            req.setAttribute("prescriptions", prescriptions);
+            req.setAttribute("medicalForms", medicalForms);
+            req.setAttribute("patient", patient);
             req.getRequestDispatcher("WEB-INF/views/consultation-details.jsp").forward(req, resp);
 
         }

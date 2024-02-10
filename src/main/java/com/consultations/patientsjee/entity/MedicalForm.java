@@ -25,7 +25,8 @@ public class MedicalForm {
 
     private int duration;
 
-    @OneToOne(mappedBy = "medicalForm")
+    @OneToOne
+    @JoinColumn(name = "consultation_id")
     private Consultation consultation;
 
 }

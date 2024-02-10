@@ -2,6 +2,7 @@ package com.consultations.patientsjee.service;
 
 import com.consultations.patientsjee.repository.Repository;
 import com.consultations.patientsjee.entity.Patient;
+import com.consultations.patientsjee.repository.ext.PatientRepository;
 import com.consultations.patientsjee.utils.HibernateSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -122,4 +123,23 @@ public class PatientService extends HibernateSession {
         return false;
     }
 
+
+
+    public Patient getAPatientByConsultationId(Long consultationId){
+        Patient patient = new Patient();
+        try (Session session = HibernateSession.getSessionFactory().openSession()){
+
+            PatientRepository castedRepo = (PatientRepository) patientRepository;
+            castedRepo.setSession(session);
+            tx = session.beginTransaction();
+            patient = castedRepo.getAPatientByConsultationId(consultationId);
+            tx.commit();
+        }catch (Exception e){
+            if (tx != null) {
+                tx.rollback();
+                e.printStackTrace();
+            }
+        }
+        return patient;
+    }
 }
