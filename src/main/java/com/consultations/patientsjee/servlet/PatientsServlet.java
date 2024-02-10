@@ -1,7 +1,10 @@
 package com.consultations.patientsjee.servlet;
 
+import com.consultations.patientsjee.entity.Consultation;
+import com.consultations.patientsjee.repository.ext.ConsultationRepository;
 import com.consultations.patientsjee.repository.ext.PatientRepository;
 import com.consultations.patientsjee.entity.Patient;
+import com.consultations.patientsjee.service.ConsultationService;
 import com.consultations.patientsjee.service.PatientService;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -11,14 +14,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "patientsServlet", urlPatterns = {"/patientslist","/patientdetails"})
 public class PatientsServlet extends HttpServlet {
 
     private PatientService patientService;
+    private ConsultationService consultationService;
 
     public PatientsServlet() {
         patientService = new PatientService(new PatientRepository());
+        consultationService = new ConsultationService(new ConsultationRepository());
     }
 
     @Override
@@ -40,7 +46,9 @@ public class PatientsServlet extends HttpServlet {
         if (req.getParameter("id") != null) {
             long id = Long.parseLong(req.getParameter("id"));
             Patient patient = patientService.getPatientById(id);
+            List<Consultation> consultations = consultationService.getAllConsultations(id);
             req.setAttribute("patient", patient);
+            req.setAttribute("consultations", consultations);
             req.getRequestDispatcher("WEB-INF/views/patient-details.jsp").forward(req, resp);
         }else {
             resp.sendRedirect(req.getContextPath()+"/patientslist");

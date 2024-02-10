@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <h2>Consultations</h2>
-
+<div class="container-fluid">
 <table class="table">
 
 
@@ -19,7 +19,7 @@
     <c:if test="${consultations != null}">
     <c:forEach items="${consultations}" var="consultation">
     <tr>
-        <th></th>
+
         <td>${consultation.dateConsultation}</td>
         <td>Doctor ${consultation.doctorFirstName} ${consultation.doctorLastName}</td>
         <td><a href="${pageContext.request.contextPath}/consultationdetails?id=${consultation.id}" type="button" class="btn btn-secondary">Details</a></td>
@@ -30,3 +30,5 @@
     </tbody>
 
 </table>
+
+</div>

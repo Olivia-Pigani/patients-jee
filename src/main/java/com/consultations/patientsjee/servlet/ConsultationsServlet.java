@@ -43,8 +43,8 @@ private ConsultationService consultationService;
             long patientId = Long.parseLong(patientIdParam);
             List<Consultation> consultations = consultationService.getConsultationsById(patientId);
             req.setAttribute("consultations",consultations);
+            req.getRequestDispatcher("WEB-INF/views/consultations-list.jsp").forward(req, resp);
         }
-        req.getRequestDispatcher("WEB-INF/views/consultations-list.jsp").forward(req, resp);
     }
 
 

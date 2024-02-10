@@ -56,4 +56,21 @@ insert into subscribers(user_name, email, `password`)
 values
 ('example','example@gmail.com','1234aA@');
 
+
+INSERT INTO medical_forms (care_type, duration)
+VALUES ('General Checkup', 30);
+
+insert into consultations(date_consultation,doctor_last_name,doctor_first_name,patient_id, medical_form_id)
+values
+('2021-02-14','Anniston','Jennifer',1,1);
+
+insert into prescriptions(pill_type,duration,consultation_id)
+values
+('adrenaline',25,3);
+
+select * from consultations;
+select * from medical_forms;
+select * from patients;
 select * from subscribers;
+select * from prescriptions;
+

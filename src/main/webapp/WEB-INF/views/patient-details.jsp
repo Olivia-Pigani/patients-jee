@@ -33,7 +33,7 @@
 
 <div>
 
-    <%@include file="../../consultations-list.jsp"%>
+    <jsp:include page="../../consultations-list.jsp" />
 
 </div>
 
