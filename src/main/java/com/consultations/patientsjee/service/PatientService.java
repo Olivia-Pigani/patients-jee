@@ -142,4 +142,22 @@ public class PatientService extends HibernateSession {
         }
         return patient;
     }
+
+    public List<Patient> getAllFilteredPatients(String searchQuery){
+    List<Patient> patientList = new ArrayList<>();
+    try (Session session = HibernateSession.getSessionFactory().openSession()){
+        PatientRepository castedRepo = (PatientRepository) patientRepository;
+        castedRepo.setSession(session);
+        patientList = castedRepo.getAllFilteredPatients(searchQuery);
+
+
+    }catch (Exception e){
+
+            e.printStackTrace();
+
+    }
+    return patientList;
+    }
+
+
 }

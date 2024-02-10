@@ -17,6 +17,10 @@
 </head>
 <body>
 
+<%@include file="/WEB-INF/shared/navbar.jsp" %>
+
+
+
 <div class="container-md">
 
   <h1><%=mode.equals("signin")? "Sign In" : "Sign Up" %></h1>

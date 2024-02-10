@@ -32,17 +32,25 @@ public class PatientsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
+        String searchedQuery = req.getParameter("search");
 
         switch (action) {
             case "/patientslist":
-                patientsList(req, resp);
-                break;
+                if (searchedQuery != null && !searchedQuery.isEmpty()){
+                    filterLogic(req,resp,searchedQuery);
+                }else{
+                    patientsList(req, resp);
+                    break;
+                }
+
             case "/patientdetails":
                 getPatientDetails(req, resp);
                 break;
         }
 
     }
+
+
 
     private void getPatientDetails(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("id") != null) {
@@ -61,6 +69,13 @@ public class PatientsServlet extends HttpServlet {
         req.setAttribute("patients", patientService.getAllPatients());
         req.getRequestDispatcher("patients-list.jsp").forward(req, resp);
     }
+
+    private void filterLogic(HttpServletRequest req, HttpServletResponse resp, String searchedQuery) throws ServletException, IOException {
+        req.setAttribute("patients",patientService.getAllFilteredPatients(searchedQuery));
+        req.getRequestDispatcher("patients-list.jsp").forward(req,resp);
+
+    }
+
 
     @Override
     public void destroy() {

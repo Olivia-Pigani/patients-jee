@@ -28,5 +28,11 @@ public class PatientRepository extends Repository<Patient> {
         return patientQuery.getSingleResult();
     }
 
+    public List<Patient> getAllFilteredPatients(String searchQuery){
+        String searchedPattern = searchQuery + "%";
+        Query<Patient> patientQuery = session.createQuery("from Patient p where lower(p.firstName) like :searchedPattern or lower(p.lastName) like :searchedPattern", Patient.class);
+        patientQuery.setParameter("searchedPattern",searchedPattern);
+        return patientQuery.getResultList();
 
+    }
 }

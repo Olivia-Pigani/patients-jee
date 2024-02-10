@@ -8,14 +8,34 @@
 <body>
 <%@include file="/WEB-INF/shared/navbar.jsp" %>
 
-<div class="container-md ">
+
+
+
+<div class="container-md mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form class="d-flex" action="${pageContext.request.contextPath}/patientslist" method="GET">
+
+                <c:choose>
+                <c:when test="${not empty param.search}">
+                    <button class="btn btn-outline-danger" type="submit">Clean</button>
+                </c:when>
+                    <c:otherwise>
+                        <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </c:otherwise>
+                </c:choose>
+            </form>
+        </div>
+    </div>
+
     <table class="table">
         <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col">First name</th>
             <th scope="col">Last name</th>
             <th scope="col">Birth date</th>
+            <th></th>
             <th></th>
         </tr>
         </thead>
@@ -23,12 +43,11 @@
 
         <c:if test="${patients != null}">
         <c:forEach items="${patients}" var="patient">
-        <tr>
-            <th></th>
+        <tr class="align-middle">
             <td>${patient.getLastName()}</td>
             <td>${patient.getFirstName()}</td>
             <td>${patient.getBirthDate()}</td>
-            <td>${patient.getImageUrl()}</td>
+            <td><img src="${patient.getImageUrl()}" alt="patient's profile picture" width="100"></td>
             <td><a href="${pageContext.request.contextPath}/patientdetails?id=${patient.id}" type="button" class="btn btn-secondary">Details</a></td>
 
         </tr>
