@@ -30,8 +30,12 @@ public class AuthServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("auth-form.jsp").forward(req,resp);
-
+        String action = req.getParameter("action");
+        if ("signout".equals(action)) {
+            signOutLogic(req, resp);
+        } else {
+            req.getRequestDispatcher("auth-form.jsp").forward(req,resp);
+        }
     }
 
 
@@ -45,9 +49,6 @@ public class AuthServlet extends HttpServlet {
                 break;
             case "signin":
                 signInLogic(req,resp);
-                break;
-            case "signout":
-                signOutLogic(req,resp);
                 break;
         }
     }
@@ -99,13 +100,13 @@ public class AuthServlet extends HttpServlet {
 
 
     }
-    private void signOutLogic(HttpServletRequest req, HttpServletResponse resp) {
+    private void signOutLogic(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         HttpSession session = req.getSession(false);
         if (session != null){
             session.invalidate();
         }
-
+        resp.sendRedirect(req.getContextPath() + "/patientslist");
     }
 
 

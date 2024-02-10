@@ -4,53 +4,66 @@
 <html>
 <head>
     <title>Consultation's details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
 </head>
 <body>
 
-<div class="container-fluid">
+<div class="container mt-4 ">
 
-    <h2>Consultation dating from ${consultation.dateConsultation}</h2>
-    <div>
-        <h3>Patient</h3>
-        <p> First Name : ${patient.firstName}</p>
-        <p> Last Name : ${patient.lastName}</p>
-        <p> Birth Date : ${patient.birthDate}</p>
+    <h2 class="mb-4">Consultation dating from ${consultation.dateConsultation}</h2>
 
-    </div>
-    <div>
-        <h4>Doctor : ${consultation.doctorFirstName} ${consultation.doctorLastName}</h4>
-    </div>
-
-    <div>
-        <c:if test="${medicalForms != null}">
-        <c:forEach items="${medicalForms}" var="medicalForm">
-        <h3>Medical Form</h3>
-        <p>Care Type : ${medicalForm.careType}</p>
-        <p>Duration : ${medicalForm.duration} days</p>
-        </c:forEach>
-        </c:if>
-
-
-    </div>
-   <div>
-<c:if test="${prescriptions != null}">
-    <c:forEach items="${prescriptions}" var="prescription">
-        <h3>Prescription</h3>
-        <p>Pills type : ${prescription.pillType}</p>
-        <p>Duration : ${prescription.duration} days</p>
-
-    </c:forEach>
-</c:if>
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="${patient.imageUrl}" class="img-fluid rounded-start" alt="patient's image"  width="250">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h3 class="card-title">Patient Details</h3>
+                    <p class="card-text">First Name: ${patient.firstName}</p>
+                    <p class="card-text">Last Name: ${patient.lastName}</p>
+                    <p class="card-text">Birth Date: ${patient.birthDate}</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h4 class="card-title">Doctor</h4>
+            <p class="card-text">${consultation.doctorFirstName} ${consultation.doctorLastName}</p>
+        </div>
+    </div>
 
+    <c:if test="${medicalForms != null}">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h3 class="card-title">Medical Form</h3>
+                <c:forEach items="${medicalForms}" var="medicalForm">
+                    <p class="card-text">Care Type: ${medicalForm.careType}</p>
+                    <p class="card-text">Duration: ${medicalForm.duration} days</p>
+                </c:forEach>
+            </div>
+        </div>
+    </c:if>
 
+    <c:if test="${prescriptions != null}">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h3 class="card-title">Prescription</h3>
+                <c:forEach items="${prescriptions}" var="prescription">
+                    <p class="card-text">Pills type: ${prescription.pillType}</p>
+                    <p class="card-text">Duration: ${prescription.duration} days</p>
+                </c:forEach>
+            </div>
+        </div>
+    </c:if>
 
+    <div class="mt-4">
+        <a href="${pageContext.request.contextPath}/patientslist" class="btn btn-secondary">Back to Patients</a>
     </div>
 
 </div>
-
 
 </body>
 </html>
