@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "patientsServlet", urlPatterns = {"/patientslist","/patientdetails"})
+@WebServlet(name = "patientsServlet", urlPatterns = {"/patientslist", "/patientdetails", "/addapatient"})
 public class PatientsServlet extends HttpServlet {
 
     private PatientService patientService;
@@ -26,7 +26,7 @@ public class PatientsServlet extends HttpServlet {
 
     public PatientsServlet() {
         patientService = new PatientService(new PatientRepository());
-        consultationService = new ConsultationService(new ConsultationRepository(),new MedicalFormRepository(), new PrescriptionRepository());
+        consultationService = new ConsultationService(new ConsultationRepository(), new MedicalFormRepository(), new PrescriptionRepository());
     }
 
     @Override
@@ -36,9 +36,9 @@ public class PatientsServlet extends HttpServlet {
 
         switch (action) {
             case "/patientslist":
-                if (searchedQuery != null && !searchedQuery.isEmpty()){
-                    filterLogic(req,resp,searchedQuery);
-                }else{
+                if (searchedQuery != null && !searchedQuery.isEmpty()) {
+                    filterLogic(req, resp, searchedQuery);
+                } else {
                     patientsList(req, resp);
                     break;
                 }
@@ -46,10 +46,12 @@ public class PatientsServlet extends HttpServlet {
             case "/patientdetails":
                 getPatientDetails(req, resp);
                 break;
+            case "/addapatient":
+                addAPatientLogic(req, resp);
+                break;
         }
 
     }
-
 
 
     private void getPatientDetails(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -60,8 +62,8 @@ public class PatientsServlet extends HttpServlet {
             req.setAttribute("patient", patient);
             req.setAttribute("consultations", consultations);
             req.getRequestDispatcher("WEB-INF/views/patient-details.jsp").forward(req, resp);
-        }else {
-            resp.sendRedirect(req.getContextPath()+"/patientslist");
+        } else {
+            resp.sendRedirect(req.getContextPath() + "/patientslist");
         }
     }
 
@@ -71,11 +73,14 @@ public class PatientsServlet extends HttpServlet {
     }
 
     private void filterLogic(HttpServletRequest req, HttpServletResponse resp, String searchedQuery) throws ServletException, IOException {
-        req.setAttribute("patients",patientService.getAllFilteredPatients(searchedQuery));
-        req.getRequestDispatcher("patients-list.jsp").forward(req,resp);
+        req.setAttribute("patients", patientService.getAllFilteredPatients(searchedQuery));
+        req.getRequestDispatcher("patients-list.jsp").forward(req, resp);
 
     }
 
+    private void addAPatientLogic(HttpServletRequest req, HttpServletResponse resp) {
+
+    }
 
     @Override
     public void destroy() {
