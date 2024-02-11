@@ -5,21 +5,5 @@
          version="5.0">
 
 
-    <context-param>
-        <param-name>com.auth0.domain</param-name>
-        <param-value>java:comp/env/auth0/domain</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>com.auth0.clientId</param-name>
-        <param-value>java:comp/env/auth0/clientId</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>com.auth0.clientSecret</param-name>
-        <param-value>java:comp/env/auth0/clientSecret</param-value>
-    </context-param>
-
-
 
 </web-app>

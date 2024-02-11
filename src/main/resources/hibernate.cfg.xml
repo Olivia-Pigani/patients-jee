@@ -1,14 +1,22 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
+
     <session-factory>
+
+<!--        ENTITY MAPPING-->
         <mapping class="com.consultations.patientsjee.entity.Consultation"/>
         <mapping class="com.consultations.patientsjee.entity.MedicalForm"/>
         <mapping class="com.consultations.patientsjee.entity.Patient"/>
         <mapping class="com.consultations.patientsjee.entity.Prescription"/>
         <mapping class="com.consultations.patientsjee.entity.User"/>
+
     </session-factory>
+
+
 </hibernate-configuration>
+
+

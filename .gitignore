@@ -3,8 +3,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### it contain auth0 sensible data fot connection ###
 /src/main/resources/META-INF/context.xml
+/src/main/resources/secure.properties
+/src/main/resources/secure.properties/
 
 ### IntelliJ IDEA ###
 .idea/

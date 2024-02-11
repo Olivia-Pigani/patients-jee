@@ -17,7 +17,10 @@ public class HibernateSession {
 
             synchronized (HibernateSession.class) {
                 if (sessionFactory == null) {
-                    registry = new StandardServiceRegistryBuilder().configure().build();
+                    registry = new StandardServiceRegistryBuilder().configure()
+                            .applySetting("hibernate.connection.username", Definition.getProperty("hibernate.connection.username"))
+                            .applySetting("hibernate.connection.password", Definition.getProperty("hibernate.connection.password"))
+                            .build();
                     sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
                 }
             }
