@@ -11,11 +11,11 @@ To run patient-jee, you can use a Tomcat server, you can follow those instructio
 
 2. install "Smart Tomcat" plugin on your IDE (I personnaly use IntellJ), it will facilitate Tomcat management.
 
-<img src="../../patients-jee/src/main/webapp/WEB-INF/assets/images/smart-tomcat-plugin.jpeg" alt="how to download smart tomcat plugin" width="1000">
+<img src="src/main/webapp/WEB-INF/assets/images/smart-tomcat-plugin.jpeg" alt="how to download smart tomcat plugin" width="1000">
 
 3. click on "edit configurations" at the top right of the IDE and add a new smart tomcat
 
-<img src="../../patients-jee/src/main/webapp/WEB-INF/assets/images/start-smart-tomcat.jpeg" alt="how to start smart tomcat" width="1000">
+<img src="src/main/webapp/WEB-INF/assets/images/start-smart-tomcat.jpeg" alt="how to start smart tomcat" width="1000">
 
 - Name : you can choose the server name, here that "Unnamed".
 - Tomcat Server : select the installation directory of Tomcat on your computer.
@@ -24,7 +24,7 @@ To run patient-jee, you can use a Tomcat server, you can follow those instructio
 
 4. Validate your settings and start the server. Then, go to http://localhost:8080/patient-jee to access the application.
 
-<img src="../../patients-jee/src/main/webapp/WEB-INF/assets/images/server-started.jpeg" alt="how to start smart tomcat" width="400">
+<img src="src/main/webapp/WEB-INF/assets/images/server-started.jpeg" alt="how to start smart tomcat" width="400">
 
 
 ### 2 - Setting up database connection
@@ -33,13 +33,13 @@ To run patient-jee, you can use a Tomcat server, you can follow those instructio
    and paste it in WorkBench for example.
 
 
-<img src="../../patients-jee/src/main/webapp/WEB-INF/assets/images/workbench.jpeg" alt="workbench view" width="1000">
+<img src="src/main/webapp/WEB-INF/assets/images/workbench.jpeg" alt="workbench view" width="1000">
 
 
 
 2. Add a "secure.properties" file to resources folder :
 
-<img src="../../patients-jee/src/main/webapp/WEB-INF/assets/images/secure.properties.jpeg" alt="secure.properties is added to resources folder" width="400">
+<img src="src/main/webapp/WEB-INF/assets/images/secure.properties.jpeg" alt="secure.properties is added to resources folder" width="400">
 
 
 Then specify inside of it the username and password that you use to connect to MySql :
