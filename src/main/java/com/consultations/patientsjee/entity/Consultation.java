@@ -33,10 +33,10 @@ public class Consultation {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    @OneToOne(mappedBy = "consultation")
+    @OneToOne(mappedBy = "consultation",cascade = CascadeType.ALL)
     private MedicalForm medicalForm;
 
-    @OneToOne(mappedBy = "consultation")
+    @OneToOne(mappedBy = "consultation",cascade = CascadeType.ALL)
     private Prescription prescription;
 
 

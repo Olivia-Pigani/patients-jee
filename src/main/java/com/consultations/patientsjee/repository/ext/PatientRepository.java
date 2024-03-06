@@ -1,6 +1,5 @@
 package com.consultations.patientsjee.repository.ext;
 
-import com.consultations.patientsjee.entity.Consultation;
 import com.consultations.patientsjee.repository.Repository;
 import com.consultations.patientsjee.entity.Patient;
 import org.hibernate.Query;

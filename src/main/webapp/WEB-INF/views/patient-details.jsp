@@ -33,7 +33,12 @@
 
 <div>
 
-    <jsp:include page="../../consultations-list.jsp" />
+    <jsp:include page="consultations-list.jsp" />
+
+</div>
+
+<div>
+    <td><a href="${pageContext.request.contextPath}/add-consultation?id=${patient.id}" type="button" class="btn btn-secondary">Add a consultation</a></td>
 
 </div>
 

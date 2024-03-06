@@ -1,9 +1,6 @@
 package com.consultations.patientsjee.servlet;
 
-import com.consultations.patientsjee.entity.Consultation;
-import com.consultations.patientsjee.entity.MedicalForm;
-import com.consultations.patientsjee.entity.Patient;
-import com.consultations.patientsjee.entity.Prescription;
+import com.consultations.patientsjee.entity.*;
 import com.consultations.patientsjee.repository.ext.ConsultationRepository;
 import com.consultations.patientsjee.repository.ext.MedicalFormRepository;
 import com.consultations.patientsjee.repository.ext.PatientRepository;
@@ -16,18 +13,21 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
-@WebServlet(name = "ConsultationsServlet", urlPatterns = {"/consultationslist","/consultationdetails"})
+@WebServlet(name = "ConsultationsServlet", urlPatterns = {"/consultationslist", "/consultationdetails", "/add-consultation"})
 public class ConsultationsServlet extends HttpServlet {
 
 
-private ConsultationService consultationService;
-private PatientService patientService;
+    private ConsultationService consultationService;
+    private PatientService patientService;
 
     public ConsultationsServlet() {
-        consultationService = new ConsultationService(new ConsultationRepository(),new MedicalFormRepository(), new PrescriptionRepository());
+        consultationService = new ConsultationService(new ConsultationRepository(), new MedicalFormRepository(), new PrescriptionRepository());
         patientService = new PatientService(new PatientRepository());
     }
 
@@ -36,14 +36,81 @@ private PatientService patientService;
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
 
-        switch (action){
-            case "/consultationslist":
-                getConsultationsList(req,resp);
-                break;
-            case "/consultationdetails":
-                getConsultationDetails(req,resp);
-                break;
+        switch (action) {
+            case "/consultationslist" -> getConsultationsList(req, resp);
+            case "/consultationdetails" -> getConsultationDetails(req, resp);
+            case "/add-consultation" -> addAConsultationLogic(req, resp);
         }
+    }
+
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getServletPath();
+
+
+        if (action.equals("/add-consultation")) {
+            postAConsultation(req, resp);
+        }
+    }
+
+
+    private void postAConsultation(HttpServletRequest req, HttpServletResponse resp) {
+
+        try {
+            long patientId = Long.parseLong(req.getParameter("patientId"));
+            String doctorFirstName = req.getParameter("doctorFirstName");
+            String doctorLastName = req.getParameter("doctorLastName");
+            Date consulationDate;
+
+            if (req.getParameter("dateConsultation").isEmpty() || req.getParameter("dateConsultation") == null) {
+                consulationDate = java.sql.Date.from(Instant.now());
+            } else {
+                consulationDate = java.sql.Date.valueOf(req.getParameter("dateConsultation"));
+            }
+
+            String careType = req.getParameter("careType");
+            int treatmentDuration = Integer.parseInt(req.getParameter("treatment-duration"));
+            String pillType = req.getParameter("pillType");
+            int prescriptionDuration = Integer.parseInt(req.getParameter("prescription-duration"));
+            Patient patient = patientService.getPatientById(patientId);
+
+            Prescription newPrescription = new Prescription();
+            newPrescription.setPillType(pillType);
+            newPrescription.setDuration(prescriptionDuration);
+
+            MedicalForm newMedicalForm = new MedicalForm();
+            newMedicalForm.setCareType(careType);
+            newMedicalForm.setDuration(treatmentDuration);
+
+            Consultation newConsultation = new Consultation();
+            newConsultation.setDoctorFirstName(doctorFirstName);
+            newConsultation.setDoctorLastName(doctorLastName);
+            newConsultation.setDateConsultation(consulationDate);
+            newConsultation.setPatient(patient);
+
+            //Set bidirectionnal relationships
+            newPrescription.setConsultation(newConsultation);
+            newMedicalForm.setConsultation(newConsultation);
+            newConsultation.setMedicalForm(newMedicalForm);
+            newConsultation.setPrescription(newPrescription);
+
+            consultationService.addAConsultation(newConsultation);
+
+            resp.sendRedirect(req.getContextPath() + "/patientdetails?id=" + patientId);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+
+    private void addAConsultationLogic(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        long id = Long.parseLong(req.getParameter("id"));
+        Patient patient = patientService.getPatientById(id);
+        req.setAttribute("patient", patient);
+        req.getRequestDispatcher("/WEB-INF/views/consultation-formular.jsp").forward(req, resp);
     }
 
     private void getConsultationsList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -51,7 +118,7 @@ private PatientService patientService;
         if (patientIdParam != null) {
             long patientId = Long.parseLong(patientIdParam);
             List<Consultation> consultations = consultationService.getConsultationsById(patientId);
-            req.setAttribute("consultations",consultations);
+            req.setAttribute("consultations", consultations);
             req.getRequestDispatcher("WEB-INF/views/consultations-list.jsp").forward(req, resp);
         }
     }
