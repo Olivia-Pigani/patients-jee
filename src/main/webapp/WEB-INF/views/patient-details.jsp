@@ -40,6 +40,13 @@
 <div>
     <td><a href="${pageContext.request.contextPath}/add-consultation?patientId=${patient.id}" type="button" class="btn btn-secondary">Add a consultation</a></td>
 
+    <%--         use form of post type avoid web preloading and '< a >' automatic deletion--%>
+    <form action="${pageContext.request.contextPath}/delete-patient" method="post">
+        <input type="hidden" name="patientId" value="${patient.id}" />
+        <button type="submit" class="btn btn-danger">Delete patient</button>
+    </form>
+
+
 </div>
 
 

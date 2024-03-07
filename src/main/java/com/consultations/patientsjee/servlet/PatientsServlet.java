@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet(name = "patientsServlet", urlPatterns = {"/patientslist", "/patientdetails", "/addapatient"})
+@WebServlet(name = "patientsServlet", urlPatterns = {"/patientslist", "/patientdetails", "/addapatient","/delete-patient"})
 public class PatientsServlet extends HttpServlet {
 
     private PatientService patientService;
@@ -59,8 +59,15 @@ public class PatientsServlet extends HttpServlet {
         String action = req.getServletPath();
         switch (action){
            case "/addapatient"->PostAPatient(req,resp);
+           case "/delete-patient"->deleteAPatientLogic(req,resp);
 
         }
+    }
+
+    private void deleteAPatientLogic(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        long patientId = Long.parseLong(req.getParameter("patientId"));
+        patientService.deleteAPatient(patientId);
+        resp.sendRedirect(req.getContextPath() + "/patientslist");
     }
 
     private void PostAPatient(HttpServletRequest req, HttpServletResponse resp) throws IOException {
