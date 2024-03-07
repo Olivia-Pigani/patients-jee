@@ -19,7 +19,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet(name = "ConsultationsServlet", urlPatterns = {"/consultationslist", "/consultationdetails", "/add-consultation"})
+@WebServlet(name = "ConsultationsServlet", urlPatterns = {"/consultationslist", "/consultationdetails", "/add-consultation", "/delete-consultation"})
 public class ConsultationsServlet extends HttpServlet {
 
 
@@ -48,9 +48,28 @@ public class ConsultationsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
 
+        switch (action) {
+            case "/add-consultation" -> postAConsultation(req, resp);
+            case "/delete-consultation" -> deleteConsultation(req, resp);
+        }
 
-        if (action.equals("/add-consultation")) {
-            postAConsultation(req, resp);
+    }
+
+    private void deleteConsultation(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String consultationIdStr = req.getParameter("consultationId");
+        long patientId = Long.parseLong(req.getParameter("patientId"));
+        if (consultationIdStr != null && !consultationIdStr.isEmpty() ){
+            try {
+                long consultationId = Long.parseLong(consultationIdStr);
+                consultationService.deleteAConsultation(consultationId);
+
+                resp.sendRedirect(req.getContextPath() + "/patientdetails?id=" + patientId);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        } else {
+            resp.sendRedirect(req.getContextPath() + "/patientdetails?id=" + patientId);
+
         }
     }
 
