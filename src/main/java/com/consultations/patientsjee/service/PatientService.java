@@ -1,8 +1,8 @@
 package com.consultations.patientsjee.service;
 
-import com.consultations.patientsjee.repository.Repository;
+import com.consultations.patientsjee.DAO.BaseDAO;
 import com.consultations.patientsjee.entity.Patient;
-import com.consultations.patientsjee.repository.ext.PatientRepository;
+import com.consultations.patientsjee.DAO.ext.PatientBaseDAO;
 import com.consultations.patientsjee.utils.HibernateSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -13,20 +13,20 @@ import java.util.List;
 public class PatientService extends HibernateSession {
 
     private Transaction tx = null;
-    private Repository<Patient> patientRepository;
+    private BaseDAO<Patient> patientBaseDAO;
 
 
-    public PatientService(Repository<Patient> patientRepository) {
-        this.patientRepository = patientRepository;
+    public PatientService(BaseDAO<Patient> patientBaseDAO) {
+        this.patientBaseDAO = patientBaseDAO;
     }
 
     public List<Patient> getAllPatients() {
         List<Patient> patientList = new ArrayList<>();
         try (Session session = HibernateSession.getSessionFactory().openSession()) {
-            patientRepository.setSession(session);
+            patientBaseDAO.setSession(session);
 
             tx = session.beginTransaction();
-            patientList = patientRepository.getAll();
+            patientList = patientBaseDAO.getAll();
             tx.commit();
 
 
@@ -44,10 +44,10 @@ public class PatientService extends HibernateSession {
     public Patient getPatientById(long patientId) {
         Patient patientToFind = new Patient();
         try (Session session = HibernateSession.getSessionFactory().openSession()){
-            patientRepository.setSession(session);
+            patientBaseDAO.setSession(session);
 
             tx = session.beginTransaction();
-            patientToFind = patientRepository.getById(patientId);
+            patientToFind = patientBaseDAO.getById(patientId);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
@@ -61,10 +61,10 @@ public class PatientService extends HibernateSession {
 
     public boolean addAPatient(Patient newPatient) {
         try (Session session = HibernateSession.getSessionFactory().openSession()){
-            patientRepository.setSession(session);
+            patientBaseDAO.setSession(session);
 
             tx = session.beginTransaction();
-            patientRepository.add(newPatient);
+            patientBaseDAO.add(newPatient);
             tx.commit();
             return true;
         } catch (Exception e) {
@@ -78,11 +78,11 @@ public class PatientService extends HibernateSession {
 
     public boolean deleteAPatient(long patientId) {
         try (Session session = HibernateSession.getSessionFactory().openSession()){
-            patientRepository.setSession(session);
-            Patient patientToFind = patientRepository.getById(patientId);
+            patientBaseDAO.setSession(session);
+            Patient patientToFind = patientBaseDAO.getById(patientId);
             if (patientToFind != null) {
                 tx = session.beginTransaction();
-                patientRepository.delete(patientToFind);
+                patientBaseDAO.delete(patientToFind);
                 tx.commit();
                 return true;
             } else {
@@ -100,9 +100,9 @@ public class PatientService extends HibernateSession {
 
     public boolean updateAPatient(long patientId, Patient updatedPatient) {
         try (Session session = HibernateSession.getSessionFactory().openSession()) {
-            patientRepository.setSession(session);
+            patientBaseDAO.setSession(session);
 
-            Patient patientToUpdate = patientRepository.getById(patientId);
+            Patient patientToUpdate = patientBaseDAO.getById(patientId);
             if (patientToUpdate != null) {
                 tx = session.beginTransaction();
                 patientToUpdate.setFirstName(updatedPatient.getFirstName());
@@ -129,7 +129,7 @@ public class PatientService extends HibernateSession {
         Patient patient = new Patient();
         try (Session session = HibernateSession.getSessionFactory().openSession()){
 
-            PatientRepository castedRepo = (PatientRepository) patientRepository;
+            PatientBaseDAO castedRepo = (PatientBaseDAO) patientBaseDAO;
             castedRepo.setSession(session);
             tx = session.beginTransaction();
             patient = castedRepo.getAPatientByConsultationId(consultationId);
@@ -146,7 +146,7 @@ public class PatientService extends HibernateSession {
     public List<Patient> getAllFilteredPatients(String searchQuery){
     List<Patient> patientList = new ArrayList<>();
     try (Session session = HibernateSession.getSessionFactory().openSession()){
-        PatientRepository castedRepo = (PatientRepository) patientRepository;
+        PatientBaseDAO castedRepo = (PatientBaseDAO) patientBaseDAO;
         castedRepo.setSession(session);
         patientList = castedRepo.getAllFilteredPatients(searchQuery);
 

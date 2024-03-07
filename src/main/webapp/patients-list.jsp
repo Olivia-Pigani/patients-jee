@@ -57,11 +57,9 @@
     </table>
 
     <div>
-
-
-        <td><a href="${pageContext.request.contextPath}/addapatient" type="button" class="btn btn-secondary">Add a patient</a></td>
-
-
+        <c:if test="${not empty sessionScope.user}">
+            <td><a href="${pageContext.request.contextPath}/addapatient" type="button" class="btn btn-secondary">Add a patient</a></td>
+        </c:if>
     </div>
 
 </div>

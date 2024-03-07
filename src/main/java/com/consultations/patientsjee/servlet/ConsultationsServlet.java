@@ -1,10 +1,10 @@
 package com.consultations.patientsjee.servlet;
 
 import com.consultations.patientsjee.entity.*;
-import com.consultations.patientsjee.repository.ext.ConsultationRepository;
-import com.consultations.patientsjee.repository.ext.MedicalFormRepository;
-import com.consultations.patientsjee.repository.ext.PatientRepository;
-import com.consultations.patientsjee.repository.ext.PrescriptionRepository;
+import com.consultations.patientsjee.DAO.ext.ConsultationBaseDAO;
+import com.consultations.patientsjee.DAO.ext.MedicalFormBaseDAO;
+import com.consultations.patientsjee.DAO.ext.PatientBaseDAO;
+import com.consultations.patientsjee.DAO.ext.PrescriptionBaseDAO;
 import com.consultations.patientsjee.service.ConsultationService;
 import com.consultations.patientsjee.service.PatientService;
 import jakarta.servlet.ServletException;
@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
@@ -27,8 +26,8 @@ public class ConsultationsServlet extends HttpServlet {
     private PatientService patientService;
 
     public ConsultationsServlet() {
-        consultationService = new ConsultationService(new ConsultationRepository(), new MedicalFormRepository(), new PrescriptionRepository());
-        patientService = new PatientService(new PatientRepository());
+        consultationService = new ConsultationService(new ConsultationBaseDAO(), new MedicalFormBaseDAO(), new PrescriptionBaseDAO());
+        patientService = new PatientService(new PatientBaseDAO());
     }
 
 

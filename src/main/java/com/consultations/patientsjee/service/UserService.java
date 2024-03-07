@@ -1,8 +1,8 @@
 package com.consultations.patientsjee.service;
 
 import com.consultations.patientsjee.entity.User;
-import com.consultations.patientsjee.repository.Repository;
-import com.consultations.patientsjee.repository.ext.UserRepository;
+import com.consultations.patientsjee.DAO.BaseDAO;
+import com.consultations.patientsjee.DAO.ext.UserBaseDAO;
 import com.consultations.patientsjee.utils.HibernateSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,20 +15,20 @@ public class UserService extends HibernateSession {
     //CR
 
     private Transaction tx = null;
-    private Repository<User> userRepository;
+    private BaseDAO<User> userBaseDAO;
 
 
-    public UserService(Repository<User> userRepository) {
-        this.userRepository = userRepository;
+    public UserService(BaseDAO<User> userBaseDAO) {
+        this.userBaseDAO = userBaseDAO;
     }
 
     public boolean addAnUser(User newUser) {
         try (Session session = HibernateSession.getSessionFactory().openSession()){
-            userRepository.setSession(session);
+            userBaseDAO.setSession(session);
 
             tx = session.beginTransaction();
 
-            userRepository.add(newUser);
+            userBaseDAO.add(newUser);
             tx.commit();
             return true;
         } catch (Exception e) {
@@ -45,9 +45,9 @@ public class UserService extends HibernateSession {
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
         try (Session session = HibernateSession.getSessionFactory().openSession()) {
-            userRepository.setSession(session);
+            userBaseDAO.setSession(session);
 
-            userList = userRepository.getAll();
+            userList = userBaseDAO.getAll();
 
 
         } catch (Exception e) {
@@ -64,9 +64,9 @@ public class UserService extends HibernateSession {
     public User getUserById(long userId) {
         User userToFind = new User();
         try (Session session = HibernateSession.getSessionFactory().openSession()){
-            userRepository.setSession(session);
+            userBaseDAO.setSession(session);
 
-            userToFind = userRepository.getById(userId);
+            userToFind = userBaseDAO.getById(userId);
         } catch (Exception e) {
 
                 e.printStackTrace();
@@ -78,7 +78,7 @@ public class UserService extends HibernateSession {
     public User getUserWithEmailAndPassword(String email, String password){
         User userToFind = new User();
         try  (Session session = HibernateSession.getSessionFactory().openSession()) {
-            UserRepository castedRepo = (UserRepository) userRepository;
+            UserBaseDAO castedRepo = (UserBaseDAO) userBaseDAO;
             castedRepo.setSession(session);
             return userToFind = castedRepo.getUserWithEmailAndPassword(email,password);
 
@@ -92,7 +92,7 @@ public class UserService extends HibernateSession {
     public User verifyIfAnEmailExist(String email){
         User userToFind = new User();
         try (Session session = HibernateSession.getSessionFactory().openSession()){
-            UserRepository castedRepo = (UserRepository) userRepository;
+            UserBaseDAO castedRepo = (UserBaseDAO) userBaseDAO;
             castedRepo.setSession(session);
             return userToFind = castedRepo.verifyIfAnEmailExist(email);
         }catch (Exception e){

@@ -1,19 +1,14 @@
 package com.consultations.patientsjee.servlet;
 
 import com.consultations.patientsjee.entity.User;
-import com.consultations.patientsjee.repository.ext.PatientRepository;
-import com.consultations.patientsjee.repository.ext.UserRepository;
-import com.consultations.patientsjee.service.PatientService;
+import com.consultations.patientsjee.DAO.ext.UserBaseDAO;
 import com.consultations.patientsjee.service.UserService;
-import jakarta.inject.Inject;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.hibernate.query.Query;
 
 import java.io.IOException;
 
@@ -25,7 +20,7 @@ public class AuthServlet extends HttpServlet {
     private UserService userService;
 
     public AuthServlet() {
-        userService = new UserService(new UserRepository());
+        userService = new UserService(new UserBaseDAO());
     }
 
     @Override

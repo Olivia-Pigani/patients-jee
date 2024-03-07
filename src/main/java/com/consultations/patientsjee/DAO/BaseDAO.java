@@ -1,4 +1,4 @@
-package com.consultations.patientsjee.repository;
+package com.consultations.patientsjee.DAO;
 
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Setter
 @NoArgsConstructor
-public abstract class Repository<T>{
+public abstract class BaseDAO<T>{
 
     protected Session session;
 

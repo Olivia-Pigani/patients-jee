@@ -1,12 +1,12 @@
-package com.consultations.patientsjee.repository.ext;
+package com.consultations.patientsjee.DAO.ext;
 
 import com.consultations.patientsjee.entity.User;
-import com.consultations.patientsjee.repository.Repository;
+import com.consultations.patientsjee.DAO.BaseDAO;
 import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class UserRepository extends Repository<User> {
+public class UserBaseDAO extends BaseDAO<User> {
 
 
     @Override

@@ -1,13 +1,12 @@
-package com.consultations.patientsjee.repository.ext;
+package com.consultations.patientsjee.DAO.ext;
 
 import com.consultations.patientsjee.entity.MedicalForm;
-import com.consultations.patientsjee.entity.Prescription;
-import com.consultations.patientsjee.repository.Repository;
+import com.consultations.patientsjee.DAO.BaseDAO;
 import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class MedicalFormRepository extends Repository<MedicalForm> {
+public class MedicalFormBaseDAO extends BaseDAO<MedicalForm> {
 
     @Override
     public MedicalForm getById(long elementId) {

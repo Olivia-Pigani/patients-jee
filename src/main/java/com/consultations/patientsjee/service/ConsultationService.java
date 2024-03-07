@@ -3,10 +3,9 @@ package com.consultations.patientsjee.service;
 import com.consultations.patientsjee.entity.Consultation;
 import com.consultations.patientsjee.entity.MedicalForm;
 import com.consultations.patientsjee.entity.Prescription;
-import com.consultations.patientsjee.repository.ext.ConsultationRepository;
-import com.consultations.patientsjee.repository.ext.MedicalFormRepository;
-import com.consultations.patientsjee.repository.ext.PrescriptionRepository;
-import com.consultations.patientsjee.repository.ext.UserRepository;
+import com.consultations.patientsjee.DAO.ext.ConsultationBaseDAO;
+import com.consultations.patientsjee.DAO.ext.MedicalFormBaseDAO;
+import com.consultations.patientsjee.DAO.ext.PrescriptionBaseDAO;
 import com.consultations.patientsjee.utils.HibernateSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,14 +17,14 @@ public class ConsultationService extends HibernateSession {
 
     private Transaction tx = null;
 
-    private ConsultationRepository consultationRepository;
+    private ConsultationBaseDAO consultationRepository;
 
-    private MedicalFormRepository medicalFormRepository;
+    private MedicalFormBaseDAO medicalFormRepository;
 
-    private PrescriptionRepository prescriptionRepository;
+    private PrescriptionBaseDAO prescriptionRepository;
 
 
-    public ConsultationService(ConsultationRepository consultationRepository, MedicalFormRepository medicalFormRepository, PrescriptionRepository prescriptionRepository) {
+    public ConsultationService(ConsultationBaseDAO consultationRepository, MedicalFormBaseDAO medicalFormRepository, PrescriptionBaseDAO prescriptionRepository) {
         this.consultationRepository = consultationRepository;
         this.medicalFormRepository = medicalFormRepository;
         this.prescriptionRepository = prescriptionRepository;
@@ -34,7 +33,7 @@ public class ConsultationService extends HibernateSession {
     public List<Consultation> getAllConsultations(Long patientId) {
         List<Consultation> consultationList = new ArrayList<>();
         try (Session session = HibernateSession.getSessionFactory().openSession()) {
-            ConsultationRepository castedRepo = (ConsultationRepository) consultationRepository;
+            ConsultationBaseDAO castedRepo = (ConsultationBaseDAO) consultationRepository;
             castedRepo.setSession(session);
             tx = session.beginTransaction();
             consultationList = castedRepo.getAllConsultationByPatient(patientId);
@@ -54,7 +53,7 @@ public class ConsultationService extends HibernateSession {
     public Consultation getByIdOneConsultation(Long consultationId) {
         Consultation consultation = new Consultation();
         try (Session session = HibernateSession.getSessionFactory().openSession()) {
-            ConsultationRepository castedRepo = (ConsultationRepository) consultationRepository;
+            ConsultationBaseDAO castedRepo = (ConsultationBaseDAO) consultationRepository;
             castedRepo.setSession(session);
             tx = session.beginTransaction();
             consultation = castedRepo.getById(consultationId);
@@ -115,7 +114,7 @@ public class ConsultationService extends HibernateSession {
     public List<MedicalForm> getAllMedicalFormByConsultation(Long consultationId) {
         List<MedicalForm> medicalFormList = new ArrayList<>();
         try (Session session = HibernateSession.getSessionFactory().openSession()) {
-            MedicalFormRepository castedRepo = (MedicalFormRepository) medicalFormRepository;
+            MedicalFormBaseDAO castedRepo = (MedicalFormBaseDAO) medicalFormRepository;
             castedRepo.setSession(session);
             tx = session.beginTransaction();
             medicalFormList = castedRepo.getAllMedicalFormByConsultation(consultationId);
@@ -137,7 +136,7 @@ public class ConsultationService extends HibernateSession {
     public List<Prescription> getAllPrescriptionOfAConsultation(Long consultationId) {
         List<Prescription> prescriptionList = new ArrayList<>();
         try (Session session = HibernateSession.getSessionFactory().openSession()) {
-            PrescriptionRepository castedRepo = (PrescriptionRepository) prescriptionRepository;
+            PrescriptionBaseDAO castedRepo = (PrescriptionBaseDAO) prescriptionRepository;
             castedRepo.setSession(session);
             tx = session.beginTransaction();
             prescriptionList = castedRepo.getAllPrescriptionOfAConsultation(consultationId);
