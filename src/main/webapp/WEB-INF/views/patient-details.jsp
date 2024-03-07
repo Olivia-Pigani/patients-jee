@@ -38,7 +38,7 @@
 </div>
 
 <div>
-    <td><a href="${pageContext.request.contextPath}/add-consultation?id=${patient.id}" type="button" class="btn btn-secondary">Add a consultation</a></td>
+    <td><a href="${pageContext.request.contextPath}/add-consultation?patientId=${patient.id}" type="button" class="btn btn-secondary">Add a consultation</a></td>
 
 </div>
 

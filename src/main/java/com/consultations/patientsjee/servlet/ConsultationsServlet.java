@@ -19,7 +19,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet(name = "ConsultationsServlet", urlPatterns = {"/consultationslist", "/consultationdetails", "/add-consultation", "/delete-consultation"})
+@WebServlet(name = "ConsultationsServlet", urlPatterns = {"/consultationslist", "/consultationdetails", "/add-consultation", "/delete-consultation", "/update-consultation"})
 public class ConsultationsServlet extends HttpServlet {
 
 
@@ -39,7 +39,7 @@ public class ConsultationsServlet extends HttpServlet {
         switch (action) {
             case "/consultationslist" -> getConsultationsList(req, resp);
             case "/consultationdetails" -> getConsultationDetails(req, resp);
-            case "/add-consultation" -> addAConsultationLogic(req, resp);
+            case "/add-consultation", "/update-consultation" -> getConsultationFormular(req, resp);
         }
     }
 
@@ -49,7 +49,7 @@ public class ConsultationsServlet extends HttpServlet {
         String action = req.getServletPath();
 
         switch (action) {
-            case "/add-consultation" -> postAConsultation(req, resp);
+            case "/add-consultation", "/update-consultation" -> postOrUpdateAConsultation(req, resp);
             case "/delete-consultation" -> deleteConsultation(req, resp);
         }
 
@@ -58,13 +58,13 @@ public class ConsultationsServlet extends HttpServlet {
     private void deleteConsultation(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String consultationIdStr = req.getParameter("consultationId");
         long patientId = Long.parseLong(req.getParameter("patientId"));
-        if (consultationIdStr != null && !consultationIdStr.isEmpty() ){
+        if (consultationIdStr != null && !consultationIdStr.isEmpty()) {
             try {
                 long consultationId = Long.parseLong(consultationIdStr);
                 consultationService.deleteAConsultation(consultationId);
 
                 resp.sendRedirect(req.getContextPath() + "/patientdetails?id=" + patientId);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
@@ -74,62 +74,105 @@ public class ConsultationsServlet extends HttpServlet {
     }
 
 
-    private void postAConsultation(HttpServletRequest req, HttpServletResponse resp) {
+    private void postOrUpdateAConsultation(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        long patientId = Long.parseLong(req.getParameter("patientId"));
+        Patient patient = patientService.getPatientById(patientId);
 
-        try {
-            long patientId = Long.parseLong(req.getParameter("patientId"));
-            String doctorFirstName = req.getParameter("doctorFirstName");
-            String doctorLastName = req.getParameter("doctorLastName");
-            Date consulationDate;
+        String doctorFirstName = req.getParameter("doctorFirstName");
+        String doctorLastName = req.getParameter("doctorLastName");
 
-            if (req.getParameter("dateConsultation").isEmpty() || req.getParameter("dateConsultation") == null) {
-                consulationDate = java.sql.Date.from(Instant.now());
-            } else {
-                consulationDate = java.sql.Date.valueOf(req.getParameter("dateConsultation"));
-            }
-
-            String careType = req.getParameter("careType");
-            int treatmentDuration = Integer.parseInt(req.getParameter("treatment-duration"));
-            String pillType = req.getParameter("pillType");
-            int prescriptionDuration = Integer.parseInt(req.getParameter("prescription-duration"));
-            Patient patient = patientService.getPatientById(patientId);
-
-            Prescription newPrescription = new Prescription();
-            newPrescription.setPillType(pillType);
-            newPrescription.setDuration(prescriptionDuration);
-
-            MedicalForm newMedicalForm = new MedicalForm();
-            newMedicalForm.setCareType(careType);
-            newMedicalForm.setDuration(treatmentDuration);
-
-            Consultation newConsultation = new Consultation();
-            newConsultation.setDoctorFirstName(doctorFirstName);
-            newConsultation.setDoctorLastName(doctorLastName);
-            newConsultation.setDateConsultation(consulationDate);
-            newConsultation.setPatient(patient);
-
-            //Set bidirectionnal relationships
-            newPrescription.setConsultation(newConsultation);
-            newMedicalForm.setConsultation(newConsultation);
-            newConsultation.setMedicalForm(newMedicalForm);
-            newConsultation.setPrescription(newPrescription);
-
-            consultationService.addAConsultation(newConsultation);
-
-            resp.sendRedirect(req.getContextPath() + "/patientdetails?id=" + patientId);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        Date consulationDate;
+        if (req.getParameter("dateConsultation") == null || req.getParameter("dateConsultation").isEmpty()) {
+            consulationDate = java.sql.Date.from(Instant.now());
+        } else {
+            consulationDate = java.sql.Date.valueOf(req.getParameter("dateConsultation"));
         }
+
+        String careType = req.getParameter("careType");
+        String pillType = req.getParameter("pillType");
+
+        String treatmentDurationParam = req.getParameter("treatment-duration");
+        int treatmentDuration = treatmentDurationParam != null && !treatmentDurationParam.isEmpty() ? Integer.parseInt(treatmentDurationParam) : 0;
+
+        String prescriptionDurationParam = req.getParameter("prescription-duration");
+        int prescriptionDuration = prescriptionDurationParam != null && !prescriptionDurationParam.isEmpty() ? Integer.parseInt(prescriptionDurationParam) : 0;
+
+
+
+        Consultation consultation;
+        Prescription prescription;
+        MedicalForm medicalForm;
+        String consultationIdStr = req.getParameter("consultationId");
+        if (consultationIdStr != null && !consultationIdStr.isEmpty()) {
+            long consultationId = Long.parseLong(consultationIdStr);
+            consultation = consultationService.getByIdOneConsultation(consultationId);
+            prescription = consultation.getPrescription();
+            medicalForm = consultation.getMedicalForm();
+        } else {
+            consultation = new Consultation();
+            prescription = new Prescription();
+            medicalForm = new MedicalForm();
+
+            //Set bidirectional relationships
+            prescription.setConsultation(consultation);
+            medicalForm.setConsultation(consultation);
+            consultation.setMedicalForm(medicalForm);
+            consultation.setPrescription(prescription);
+        }
+
+
+        consultation.setDoctorFirstName(doctorFirstName);
+        consultation.setDoctorLastName(doctorLastName);
+        consultation.setDateConsultation(consulationDate);
+        consultation.setPatient(patient);
+
+        prescription.setPillType(pillType);
+        prescription.setDuration(prescriptionDuration);
+
+        medicalForm.setCareType(careType);
+        medicalForm.setDuration(treatmentDuration);
+
+
+
+
+
+        consultationService.addOrUpdateAConsultation(consultation);
+
+        resp.sendRedirect(req.getContextPath() + "/patientdetails?id=" + patientId);
 
 
     }
 
 
-    private void addAConsultationLogic(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        long id = Long.parseLong(req.getParameter("id"));
+    private void getConsultationFormular(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        long id = Long.parseLong(req.getParameter("patientId"));
         Patient patient = patientService.getPatientById(id);
         req.setAttribute("patient", patient);
-        req.getRequestDispatcher("/WEB-INF/views/consultation-formular.jsp").forward(req, resp);
+
+        String consultationIdStr = req.getParameter("consultationId");
+
+        if (consultationIdStr == null || consultationIdStr.isEmpty()) {
+            //See no data to Post a new consultation
+
+
+            req.getRequestDispatcher("/WEB-INF/views/consultation-formular.jsp").forward(req, resp);
+        } else {
+            //See existing data to Update a consultation
+            long consultationId = Long.parseLong(consultationIdStr);
+            Consultation consultation = consultationService.getByIdOneConsultation(consultationId);
+            Prescription prescription = consultation.getPrescription();
+            MedicalForm mF = consultation.getMedicalForm();
+            req.setAttribute("consultation", consultation);
+            req.setAttribute("prescription", prescription);
+            req.setAttribute("mF", mF);
+
+            req.getRequestDispatcher("/WEB-INF/views/consultation-formular.jsp").forward(req, resp);
+
+
+        }
+
+
     }
 
     private void getConsultationsList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

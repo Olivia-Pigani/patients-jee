@@ -63,9 +63,10 @@
         <a href="${pageContext.request.contextPath}/patientslist" class="btn btn-secondary">Back to Patients</a>
 
 
-        <a href="${pageContext.request.contextPath}/patientslist" class="btn btn-secondary">Update</a>
+        <a href="${pageContext.request.contextPath}/update-consultation?patientId=${patient.id}&consultationId=${consultation.id}" class="btn btn-secondary">Update consultation</a>
 
-<%--         put delete action in a form of post type avoid web preloading and '< a >' automatic deletion--%>
+
+    <%--         use form of post type avoid web preloading and '< a >' automatic deletion--%>
         <form action="${pageContext.request.contextPath}/delete-consultation" method="post">
             <input type="hidden" name="consultationId" value="${consultation.id}" />
             <input type="hidden" name="patientId" value="${patient.id}" />

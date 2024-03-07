@@ -174,7 +174,7 @@ public class ConsultationService extends HibernateSession {
 
     }
 
-    public List<Prescription> getAllPrescriptionOfAConsultation(Long consultationId){
+    public List<Prescription> getAllPrescriptionOfAConsultation(Long consultationId) {
         List<Prescription> prescriptionList = new ArrayList<>();
         try (Session session = HibernateSession.getSessionFactory().openSession()) {
             PrescriptionRepository castedRepo = (PrescriptionRepository) prescriptionRepository;
@@ -197,5 +197,32 @@ public class ConsultationService extends HibernateSession {
     }
 
 
+    public void addOrUpdateAConsultation(Consultation consultation) {
 
+        try (Session session = HibernateSession.getSessionFactory().openSession()) {
+            consultationRepository.setSession(session);
+
+            Consultation consultationToUpdate = consultationRepository.getById(consultation.getId());
+            tx = session.beginTransaction();
+
+            if (consultationToUpdate == null) {
+                consultationRepository.add(consultation);
+
+            } else {
+                consultationToUpdate.setDateConsultation(consultationToUpdate.getDateConsultation());
+                consultationToUpdate.setDoctorFirstName(consultationToUpdate.getDoctorFirstName());
+                consultationToUpdate.setDoctorLastName(consultationToUpdate.getDoctorLastName());
+                consultationToUpdate.setMedicalForm(consultationToUpdate.getMedicalForm());
+                consultationToUpdate.setPrescription(consultationToUpdate.getPrescription());
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+                e.printStackTrace();
+            }
+        }
+
+    }
 }

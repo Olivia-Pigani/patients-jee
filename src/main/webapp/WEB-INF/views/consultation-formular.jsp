@@ -19,12 +19,12 @@
 
     <div class="mb-3">
         <h4>Doctor</h4>
-        <input type="text" class="form-control" id="doctorFirstName" name="doctorFirstName"  placeholder="first name" required>
-        <input type="text" class="form-control" id="doctorLastName" name="doctorLastName"  placeholder="doctorLastName" required>
+        <input type="text" class="form-control" id="doctorFirstName" name="doctorFirstName" value="${consultation.doctorFirstName}"  placeholder="Bob" required>
+        <input type="text" class="form-control" id="doctorLastName" name="doctorLastName" value="${consultation.doctorLastName}"  placeholder="Wallace" required>
     </div>
     <div class="mb-3">
         <label for="dateConsultation" class="form-label">Consultation's date</label>
-        <input type="date" class="form-control" id="dateConsultation" name="dateConsultation" >
+        <input type="date" class="form-control" id="dateConsultation" name="dateConsultation" value="${consultation.dateConsultation}" >
         <span>By default the date will be the same as the submit button validation</span>
 
     </div>
@@ -34,13 +34,13 @@
 
         <div>
             <label for="careType" class="form-label">Care type</label>
-            <input type="text" class="form-control" id="careType" name="careType" required>
+            <input type="text" class="form-control" id="careType" name="careType" value="${mF.careType}" required>
         </div>
 
         <div>
 
             <label for="treatment-duration" class="form-label">Duration</label>
-            <input type="number" class="form-control" id="treatment-duration" name="treatment-duration" required>
+            <input type="number" class="form-control" id="treatment-duration" name="treatment-duration" value="${mF.duration}" required>
             <select class="form-select" aria-label="Default select example">
                 <option selected>days</option>
                 <option value="days">days</option>
@@ -62,7 +62,7 @@
         <div>
 
             <label for="pillType" class="form-label">pills type</label>
-            <input type="text" class="form-control" id="pillType" name="pillType" required>
+            <input type="text" class="form-control" id="pillType" name="pillType" value="${prescription.pillType}" required>
 
         </div>
 
@@ -71,7 +71,7 @@
         <div>
 
             <label for="prescription-duration" class="form-label">Duration</label>
-            <input type="number" class="form-control" id="prescription-duration" name="prescription-duration" required>
+            <input type="number" class="form-control" id="prescription-duration" name="prescription-duration" value="${prescription.duration}" required>
             <select class="form-select" aria-label="Default select example">
                 <option selected>days</option>
                 <option value="days">days</option>
