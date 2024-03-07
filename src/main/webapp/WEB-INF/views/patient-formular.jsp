@@ -15,29 +15,21 @@
         <div class="form-group row">
             <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Bob">
+                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Bob" required>
             </div>
         </div>
         <div class="form-group row">
             <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Brown">
+                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Brown" required>
             </div>
         </div>
         <fieldset class="form-group">
             <div class="row">
                 <label for="birthDate" class="col-sm-2 col-form-label">Birth Date</label>
-                <input type="date" id="birthDate"  name="birthDate">
+                <input type="date" id="birthDate"  name="birthDate" required>
             </div>
         </fieldset>
-        <div class="form-group row">
-            <div class="col-sm-10">
-                <div class="form-group">
-                    <label for="imageUrl">Image file</label>
-                    <input type="file" class="form-control-file" id="imageUrl" name="imageUrl">
-                </div>
-            </div>
-        </div>
 
         <div>
 

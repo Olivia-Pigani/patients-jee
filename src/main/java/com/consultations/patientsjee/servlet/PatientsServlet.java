@@ -66,8 +66,12 @@ public class PatientsServlet extends HttpServlet {
     private void PostAPatient(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
-        String imageUrl = req.getParameter("imageUrl");
-        Date birthDate = java.sql.Date.valueOf(req.getParameter("birthDate"));
+
+        Date birthDate =  java.sql.Date.valueOf(req.getParameter("birthDate"));
+
+        int randomNb = (int) ((Math.random()*10));
+        String imageUrl =  randomNb < 5 ? "https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=826&t=st=1706192993~exp=1706193593~hmac=a640026012b274e821b4b273acae9a804eb77191ccef63b5210d44effe47809b" : "https://img.freepik.com/free-vector/illustration-customer-service-concept_53876-5882.jpg?t=st=1706192975~exp=1706193575~hmac=1923f76a9fb4827c6f0216032cfe646d961a25ac28f640848ce1795f257cc3f8";
+        System.out.println("image url :" + imageUrl);
 
         Patient newPatient = new Patient();
         newPatient.setFirstName(firstName);
