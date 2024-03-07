@@ -154,8 +154,6 @@ public class ConsultationsServlet extends HttpServlet {
 
         if (consultationIdStr == null || consultationIdStr.isEmpty()) {
             //See no data to Post a new consultation
-
-
             req.getRequestDispatcher("/WEB-INF/views/consultation-formular.jsp").forward(req, resp);
         } else {
             //See existing data to Update a consultation

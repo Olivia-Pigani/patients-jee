@@ -88,22 +88,6 @@ public class ConsultationService extends HibernateSession {
         return consultationsToFind;
     }
 
-    public boolean addAConsultation(Consultation newConsultation) {
-        try (Session session = HibernateSession.getSessionFactory().openSession()) {
-            consultationRepository.setSession(session);
-
-            tx = session.beginTransaction();
-            consultationRepository.add(newConsultation);
-            tx.commit();
-            return true;
-        } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
 
     public boolean deleteAConsultation(long consultationId) {
         try (Session session = HibernateSession.getSessionFactory().openSession()) {
@@ -126,30 +110,6 @@ public class ConsultationService extends HibernateSession {
         return false;
     }
 
-
-    public boolean updateAConsultation(long consultationId, Consultation updatedConsultation) {
-        try (Session session = HibernateSession.getSessionFactory().openSession()) {
-            consultationRepository.setSession(session);
-
-            Consultation consultationToUpdate = consultationRepository.getById(consultationId);
-            if (consultationToUpdate != null) {
-                tx = session.beginTransaction();
-                consultationToUpdate.setDateConsultation(updatedConsultation.getDateConsultation());
-                consultationToUpdate.setDoctorFirstName(updatedConsultation.getDoctorFirstName());
-                consultationToUpdate.setDoctorLastName(updatedConsultation.getDoctorLastName());
-                tx.commit();
-
-                return true;
-            }
-
-        } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
 
 
     public List<MedicalForm> getAllMedicalFormByConsultation(Long consultationId) {

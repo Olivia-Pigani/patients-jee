@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet(name = "patientsServlet", urlPatterns = {"/patientslist", "/patientdetails", "/addapatient"})
@@ -53,6 +54,32 @@ public class PatientsServlet extends HttpServlet {
 
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getServletPath();
+        switch (action){
+           case "/addapatient"->PostAPatient(req,resp);
+
+        }
+    }
+
+    private void PostAPatient(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String imageUrl = req.getParameter("imageUrl");
+        Date birthDate = java.sql.Date.valueOf(req.getParameter("birthDate"));
+
+        Patient newPatient = new Patient();
+        newPatient.setFirstName(firstName);
+        newPatient.setLastName(lastName);
+        newPatient.setImageUrl(imageUrl);
+        newPatient.setBirthDate(birthDate);
+
+        patientService.addAPatient(newPatient);
+        resp.sendRedirect(req.getContextPath() + "/patientslist");
+
+
+    }
 
     private void getPatientDetails(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("id") != null) {
@@ -78,8 +105,8 @@ public class PatientsServlet extends HttpServlet {
 
     }
 
-    private void addAPatientLogic(HttpServletRequest req, HttpServletResponse resp) {
-
+    private void addAPatientLogic(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/WEB-INF/views/patient-formular.jsp").forward(req, resp);
     }
 
     @Override

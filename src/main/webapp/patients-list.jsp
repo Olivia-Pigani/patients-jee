@@ -56,6 +56,13 @@
         </c:if>
     </table>
 
+    <div>
+
+
+        <td><a href="${pageContext.request.contextPath}/addapatient" type="button" class="btn btn-secondary">Add a patient</a></td>
+
+
+    </div>
 
 </div>
 
