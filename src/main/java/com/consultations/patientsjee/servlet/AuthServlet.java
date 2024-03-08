@@ -1,7 +1,8 @@
 package com.consultations.patientsjee.servlet;
 
+import com.consultations.patientsjee.dto.UserDTO;
 import com.consultations.patientsjee.entity.User;
-import com.consultations.patientsjee.DAO.ext.UserBaseDAO;
+import com.consultations.patientsjee.dao.ext.UserBaseDAO;
 import com.consultations.patientsjee.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -54,13 +55,15 @@ public class AuthServlet extends HttpServlet {
         String email = req.getParameter("email");
         String clearPassword = req.getParameter("password");
 
-        User newUser = new User();
-        newUser.setUserName(userName);
-        newUser.setEmail(email);
-
 
         if (userService.verifyIfAnEmailExist(email) == null){
-            if (userService.addAnUser(newUser, clearPassword)){
+
+            UserDTO newUserDTO = new UserDTO();
+            newUserDTO.setUserName(userName);
+            newUserDTO.setEmail(email);
+            newUserDTO.setPassword(clearPassword);
+
+            if (userService.addAnUser(newUserDTO)){
                 resp.sendRedirect(req.getContextPath() +"/signform?mode=signin");
             }
         }else {
@@ -75,7 +78,11 @@ public class AuthServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        User user = userService.getUserWithEmailAndPassword(email,password);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail(email);
+        userDTO.setPassword(password);
+
+        User user = userService.getUserWithEmailAndPassword(userDTO);
 
         if (user != null){
             HttpSession session = req.getSession();

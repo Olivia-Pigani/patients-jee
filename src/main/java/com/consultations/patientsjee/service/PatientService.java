@@ -1,8 +1,8 @@
 package com.consultations.patientsjee.service;
 
-import com.consultations.patientsjee.DAO.BaseDAO;
+import com.consultations.patientsjee.dao.BaseDAO;
 import com.consultations.patientsjee.entity.Patient;
-import com.consultations.patientsjee.DAO.ext.PatientBaseDAO;
+import com.consultations.patientsjee.dao.ext.PatientBaseDAO;
 import com.consultations.patientsjee.utils.HibernateSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

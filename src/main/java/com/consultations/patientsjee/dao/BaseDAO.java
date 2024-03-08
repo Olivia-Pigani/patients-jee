@@ -1,4 +1,4 @@
-package com.consultations.patientsjee.DAO;
+package com.consultations.patientsjee.dao;
 
 import lombok.NoArgsConstructor;
 import lombok.Setter;

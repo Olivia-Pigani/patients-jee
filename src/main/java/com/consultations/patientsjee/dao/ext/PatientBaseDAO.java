@@ -1,6 +1,6 @@
-package com.consultations.patientsjee.DAO.ext;
+package com.consultations.patientsjee.dao.ext;
 
-import com.consultations.patientsjee.DAO.BaseDAO;
+import com.consultations.patientsjee.dao.BaseDAO;
 import com.consultations.patientsjee.entity.Patient;
 import org.hibernate.Query;
 

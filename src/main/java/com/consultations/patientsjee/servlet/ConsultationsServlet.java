@@ -1,10 +1,10 @@
 package com.consultations.patientsjee.servlet;
 
 import com.consultations.patientsjee.entity.*;
-import com.consultations.patientsjee.DAO.ext.ConsultationBaseDAO;
-import com.consultations.patientsjee.DAO.ext.MedicalFormBaseDAO;
-import com.consultations.patientsjee.DAO.ext.PatientBaseDAO;
-import com.consultations.patientsjee.DAO.ext.PrescriptionBaseDAO;
+import com.consultations.patientsjee.dao.ext.ConsultationBaseDAO;
+import com.consultations.patientsjee.dao.ext.MedicalFormBaseDAO;
+import com.consultations.patientsjee.dao.ext.PatientBaseDAO;
+import com.consultations.patientsjee.dao.ext.PrescriptionBaseDAO;
 import com.consultations.patientsjee.service.ConsultationService;
 import com.consultations.patientsjee.service.PatientService;
 import jakarta.servlet.ServletException;
