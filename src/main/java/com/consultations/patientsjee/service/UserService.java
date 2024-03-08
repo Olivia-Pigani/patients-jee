@@ -4,10 +4,12 @@ import com.consultations.patientsjee.entity.User;
 import com.consultations.patientsjee.DAO.BaseDAO;
 import com.consultations.patientsjee.DAO.ext.UserBaseDAO;
 import com.consultations.patientsjee.utils.HibernateSession;
+import com.consultations.patientsjee.utils.PasswordUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class UserService extends HibernateSession {
@@ -22,9 +24,14 @@ public class UserService extends HibernateSession {
         this.userBaseDAO = userBaseDAO;
     }
 
-    public boolean addAnUser(User newUser) {
+    public boolean addAnUser(User newUser, String clearPassword) {
         try (Session session = HibernateSession.getSessionFactory().openSession()){
             userBaseDAO.setSession(session);
+
+            byte[] salt = PasswordUtils.getSalt();
+            byte[] hashedPassword = PasswordUtils.hashPassword(clearPassword.toCharArray(),salt,10_000,256);
+            newUser.setSalt(salt);
+            newUser.setHashedPassword(hashedPassword);
 
             tx = session.beginTransaction();
 
@@ -52,7 +59,7 @@ public class UserService extends HibernateSession {
 
         } catch (Exception e) {
 
-                System.out.println("There is no patients !");
+                System.out.println("There is no users !");
 
                 e.printStackTrace();
 
@@ -76,12 +83,18 @@ public class UserService extends HibernateSession {
     }
 
     public User getUserWithEmailAndPassword(String email, String password){
-        User userToFind = new User();
+        User userToFind = null;
         try  (Session session = HibernateSession.getSessionFactory().openSession()) {
-            UserBaseDAO castedRepo = (UserBaseDAO) userBaseDAO;
-            castedRepo.setSession(session);
-            return userToFind = castedRepo.getUserWithEmailAndPassword(email,password);
 
+            userToFind = verifyIfAnEmailExist(email);
+
+            if (userToFind != null){
+                byte[] correctHashedPassword = PasswordUtils.hashPassword(password.toCharArray(),userToFind.getSalt(),10_000,256);
+
+                if (Arrays.equals(correctHashedPassword,userToFind.getHashedPassword())){
+                    return userToFind;
+                }
+            }
 
         }catch (Exception e){
             e.printStackTrace();

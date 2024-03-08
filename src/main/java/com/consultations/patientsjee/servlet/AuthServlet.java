@@ -52,16 +52,16 @@ public class AuthServlet extends HttpServlet {
 
         String userName = req.getParameter("name");
         String email = req.getParameter("email");
-        String password = req.getParameter("password");
+        String clearPassword = req.getParameter("password");
 
         User newUser = new User();
         newUser.setUserName(userName);
         newUser.setEmail(email);
-        newUser.setPassword(password);
+
 
         if (userService.verifyIfAnEmailExist(email) == null){
-            if (userService.addAnUser(newUser)){
-                resp.sendRedirect("patient-details.jsp");
+            if (userService.addAnUser(newUser, clearPassword)){
+                resp.sendRedirect(req.getContextPath() +"/signform?mode=signin");
             }
         }else {
             resp.sendRedirect(req.getContextPath() +"/signform?mode=signin&error=alreadySignUped");

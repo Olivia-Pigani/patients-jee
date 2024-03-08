@@ -25,12 +25,15 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    // We don't stock clearly passwords anymore, we hash them with PBKDF2
+    //    @Column(nullable = false)
+    //    private String password;
+
+    @Column(name = "hashed_password", nullable = false)
+    private byte[] hashedPassword;
+
     @Column(nullable = false)
-    private String password;
-
-
-
-
+    private byte[] salt;
 
 
 }
