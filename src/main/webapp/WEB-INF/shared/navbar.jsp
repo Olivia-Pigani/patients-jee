@@ -4,22 +4,20 @@
 
 
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
     <div class="container-fluid">
         <div >
         <a class="navbar-brand" href="${pageContext.request.contextPath}/patientslist">App</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+
         </div>
 
         <div>
             <c:choose>
             <c:when test="${not empty sessionScope.user}">
-            <a href="${pageContext.request.contextPath}/signform?action=signout" class="btn btn-outline-success" type="submit">Sign out</a>
+            <a href="${pageContext.request.contextPath}/signform?action=signout" class="btn btn-secondary" type="submit">Sign out</a>
             </c:when>
                 <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/signform" class="btn btn-outline-success" type="submit">Sign in</a>
+                    <a href="${pageContext.request.contextPath}/signform" class="btn btn-info" type="submit">Sign in</a>
                 </c:otherwise>
             </c:choose>
         </div>

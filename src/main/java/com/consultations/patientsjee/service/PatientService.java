@@ -22,13 +22,14 @@ public class PatientService extends HibernateSession {
 
     public List<Patient> getAllPatients() {
         List<Patient> patientList = new ArrayList<>();
+
         try (Session session = HibernateSession.getSessionFactory().openSession()) {
             patientBaseDAO.setSession(session);
 
             tx = session.beginTransaction();
             patientList = patientBaseDAO.getAll();
-            tx.commit();
 
+            tx.commit();
 
         } catch (Exception e) {
             if (tx != null) {

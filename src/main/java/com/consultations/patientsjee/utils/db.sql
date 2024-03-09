@@ -56,8 +56,11 @@ create table if not exists subscribers(
 id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 user_name varchar(120) not null,
 email varchar(120) not null,
-`password` varchar(250) not null
+-- `password` varchar(250) not null,
+hashed_password BINARY(32) not null,
+salt BINARY(16) not null
 );
+
 
 insert into subscribers(user_name, email, `password`)
 values

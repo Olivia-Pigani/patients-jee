@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -95,6 +97,7 @@ public class PatientsServlet extends HttpServlet {
         if (req.getParameter("id") != null) {
             long id = Long.parseLong(req.getParameter("id"));
             Patient patient = patientService.getPatientById(id);
+
             List<Consultation> consultations = consultationService.getAllConsultations(id);
             req.setAttribute("patient", patient);
             req.setAttribute("consultations", consultations);

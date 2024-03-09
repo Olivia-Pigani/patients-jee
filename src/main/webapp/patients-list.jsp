@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/shared/bootstrap.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -11,7 +11,7 @@
 
 
 
-<div class="container-md mt-4">
+<div class="container-md my-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <form class="d-flex" action="${pageContext.request.contextPath}/patientslist" method="GET">
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <table class="table">
+    <table class="table my-5">
         <thead>
         <tr>
             <th scope="col">First name</th>
@@ -46,7 +46,7 @@
         <tr class="align-middle">
             <td>${patient.getLastName()}</td>
             <td>${patient.getFirstName()}</td>
-            <td>${patient.getBirthDate()}</td>
+            <td><fmt:formatDate value="${patient.birthDate}" pattern="yyyy-MM-dd" /></td>
             <td><img src="${patient.getImageUrl()}" alt="patient's profile picture" width="100"></td>
             <td><a href="${pageContext.request.contextPath}/patientdetails?id=${patient.id}" type="button" class="btn btn-secondary">Details</a></td>
 

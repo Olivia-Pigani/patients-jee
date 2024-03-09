@@ -1,4 +1,4 @@
-<%@taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../shared/bootstrap.jsp"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -20,7 +20,7 @@
             <div class="col-md-8">
                 <div class="card-body">
                     <h5 class="card-title">${patient.firstName} ${patient.lastName}</h5>
-                    <p class="card-text">birth date : ${patient.birthDate}</p>
+                    <p class="card-text"> <fmt:formatDate value="${patient.birthDate}" pattern="yyyy-MM-dd" /></p>
                 </div>
             </div>
         </div>

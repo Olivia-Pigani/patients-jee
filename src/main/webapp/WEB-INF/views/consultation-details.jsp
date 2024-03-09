@@ -1,4 +1,4 @@
-<%@taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../shared/bootstrap.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -10,7 +10,8 @@
 
 <div class="container mt-4 ">
 
-    <h2 class="mb-4">Consultation dating from ${consultation.dateConsultation}</h2>
+    <span>Consultation dating from the</span>
+    <span class="mb-4"><fmt:formatDate value="${consultation.dateConsultation}" pattern="yyyy-MM-dd"/></span>
 
     <div class="card mb-3">
         <div class="row g-0">
@@ -22,7 +23,8 @@
                     <h3 class="card-title">Patient Details</h3>
                     <p class="card-text">First Name: ${patient.firstName}</p>
                     <p class="card-text">Last Name: ${patient.lastName}</p>
-                    <p class="card-text">Birth Date: ${patient.birthDate}</p>
+                    <span class="card-text">Birth Date: </span>
+                    <span class="card-text"><fmt:formatDate value="${patient.birthDate}" pattern="yyyy-MM-dd" /></span>
                 </div>
             </div>
         </div>
