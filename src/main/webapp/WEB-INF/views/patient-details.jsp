@@ -8,7 +8,10 @@
 <body>
 <%@include file="../shared/navbar.jsp"%>
 
-<div class="container-fluid mt-3 " >
+
+
+<div class="container my-5 ms-2  " >
+
 
 
 
@@ -31,24 +34,27 @@
 
 </div>
 
-<div>
+<div >
 
     <jsp:include page="consultations-list.jsp" />
 
 </div>
 
-<div>
-    <td><a href="${pageContext.request.contextPath}/add-consultation?patientId=${patient.id}" type="button" class="btn btn-secondary">Add a consultation</a></td>
+<div class="d-flex justify-content-start ms-3">
+    <div>
+    <a href="${pageContext.request.contextPath}/add-consultation?patientId=${patient.id}" type="button" class="btn btn-info">Add a consultation</a>
+    </div>
 
+    <div class="ms-2">
     <%--         use form of post type avoid web preloading and '< a >' automatic deletion--%>
     <form action="${pageContext.request.contextPath}/delete-patient" method="post">
         <input type="hidden" name="patientId" value="${patient.id}" />
         <button type="submit" class="btn btn-danger">Delete patient</button>
     </form>
-
+    </div>
 
 </div>
 
-
+</main>
 </body>
 </html>

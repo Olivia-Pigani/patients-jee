@@ -61,20 +61,23 @@
         </div>
     </c:if>
 
-    <div class="mt-4">
+    <div class="mt-4 ">
+        <div class="input-group">
+        <div >
         <a href="${pageContext.request.contextPath}/patientslist" class="btn btn-secondary">Back to Patients</a>
+        </div>
 
-
-        <a href="${pageContext.request.contextPath}/update-consultation?patientId=${patient.id}&consultationId=${consultation.id}" class="btn btn-secondary">Update consultation</a>
-
+        <div class="ms-3">
+        <a href="${pageContext.request.contextPath}/update-consultation?patientId=${patient.id}&consultationId=${consultation.id}" class="btn btn-warning">Update consultation</a>
+        </div>
 
     <%--         use form of post type avoid web preloading and '< a >' automatic deletion--%>
-        <form action="${pageContext.request.contextPath}/delete-consultation" method="post">
+        <form class="ms-3" action="${pageContext.request.contextPath}/delete-consultation" method="post">
             <input type="hidden" name="consultationId" value="${consultation.id}" />
             <input type="hidden" name="patientId" value="${patient.id}" />
-            <button type="submit" class="btn btn-danger">Delete consultation</button>
+            <button type="submit" class="btn btn-danger ">Delete consultation</button>
         </form>
-
+        </div>
     </div>
 
 </div>

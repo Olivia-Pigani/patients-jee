@@ -1,10 +1,12 @@
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/shared/bootstrap.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<h2>Consultations</h2>
-<div class="container-fluid">
-<table class="table">
+<div class="container-fluid mb-5 ms-2 ">
+
+    <h2>Consultations</h2>
+
+    <table class="table">
 
 
     <thead>
@@ -20,7 +22,7 @@
     <c:forEach items="${consultations}" var="consultation">
     <tr>
 
-        <td>${consultation.dateConsultation}</td>
+        <td><fmt:formatDate value="${consultation.dateConsultation}" pattern="yyyy-MM-dd" /></td>
         <td>Doctor ${consultation.doctorFirstName} ${consultation.doctorLastName}</td>
         <td><a href="${pageContext.request.contextPath}/consultationdetails?id=${consultation.id}" type="button" class="btn btn-secondary">Details</a></td>
 
@@ -32,3 +34,4 @@
 </table>
 
 </div>
+

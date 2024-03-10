@@ -18,11 +18,11 @@
 
                 <c:choose>
                 <c:when test="${not empty param.search}">
-                    <button class="btn btn-outline-danger" type="submit">Clean</button>
+                    <button class="btn btn-danger" type="submit">Clean</button>
                 </c:when>
                     <c:otherwise>
                         <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                        <button class="btn btn-success" type="submit">Search</button>
                     </c:otherwise>
                 </c:choose>
             </form>
@@ -58,7 +58,7 @@
 
     <div>
         <c:if test="${not empty sessionScope.user}">
-            <td><a href="${pageContext.request.contextPath}/addapatient" type="button" class="btn btn-secondary">Add a patient</a></td>
+            <td><a href="${pageContext.request.contextPath}/addapatient" type="button" class="btn btn-info">Add a patient</a></td>
         </c:if>
     </div>
 
