@@ -1,11 +1,11 @@
 ## How to start this project ?
 
-To get started with the patient-jakarta project, you'll need to set up a server environment with Tomcat and establish a connection to your database.
+To get started with the patient-jakartaEE project, you'll need to set up a server environment with Tomcat and establish a connection to your database.
 Also, ensure you have **Java 17 and don't hesitate to reload your Maven project if needed**.
 
 ### 1 - Setting up Tomcat server
 
-To run patient-jee, you can use a Tomcat server, you can follow those instructions :
+To run patient-jakartaEE, you can use a Tomcat server, you can follow those instructions :
 
 1. Go to Apache website and download the lastest version of Tomcat : https://tomcat.apache.org/download-10.cgi
 
