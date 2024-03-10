@@ -62,9 +62,9 @@ salt BINARY(16) not null
 );
 
 
-insert into subscribers(user_name, email, `password`)
-values
-('example','example@gmail.com','1234aA@');
+-- insert into subscribers(user_name, email, `password`)
+-- values
+-- ('example','example@gmail.com','1234aA@');
 
 
 INSERT INTO medical_forms (care_type, duration,consultation_id)
