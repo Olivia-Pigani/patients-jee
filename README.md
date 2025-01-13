@@ -2,27 +2,17 @@
 
 This patient management app is made with Java Enterprise Edition with JakartaEE framework.
 
-
-## Summary
-
-1. How to start this project
-2. Main functionalities
-3. About
-
-# Main functionalities:
+## Main functionalities:
 
 A user that do not have an account can have access to all patient list without details.
 We just have to create an account to get an account, in this case we'll be able to make CRUD operations ( add a patient, delete a consultations etc ...)
 
-
-# How it's work ?
+## How it's work ?
 
 The app generate a .war file, which need an external server to be deployed (Tomcat in our case).
-
 In the DockerFile, we make sur to use Maven to get the war file with bytes files, which is copied and pasted into tomcat.
 
-
-# How to start this project ?
+## How to start this project ?
 
 You have to use Docker to deploy locally the app, you must follow those simple steps below :
 
@@ -38,7 +28,7 @@ hibernate.connection.password = 1234
 
 ```
 
-1. add ".env" file for docker-compose.yml ( be free to replace existing data )
+2. add ".env" file for docker-compose.yml ( be free to replace existing data )
 
 <img src="src/main/resources/for-read-me/.env_file.png" alt=".env place view" width="1000">
 
@@ -66,8 +56,8 @@ PMA_PORT=8081
 ```
 
 
-1. open Docker desktop to get docker deamon
+3. open Docker desktop to get docker deamon
 
-2. run in your terminal "docker-compose up --build"
+4. run in your terminal "docker-compose up --build"
 
-5. see you at http://localhost:8080/patients-jee !
+5. see you at "http://localhost:8080/patients-jee" !
