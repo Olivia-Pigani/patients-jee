@@ -30,8 +30,8 @@ public class HibernateSession {
         return sessionFactory;
     }
 
-    public static void closeSessionFactory(){
-        if (registry != null){
+    public static void closeSessionFactory() {
+        if (registry != null) {
             StandardServiceRegistryBuilder.destroy(registry);
             sessionFactory = null;
         }

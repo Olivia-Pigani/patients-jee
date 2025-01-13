@@ -22,7 +22,7 @@ public class User {
     @Column(name = "user_name", nullable = false)
     private String userName;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
 
     // We don't stock clearly passwords anymore, we hash them with PBKDF2

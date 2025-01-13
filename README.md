@@ -1,53 +1,73 @@
-## How to start this project ?
+# Patient management app
 
-To get started with the patient-jakartaEE project, you'll need to set up a server environment with Tomcat and establish a connection to your database.
-Also, ensure you have **Java 17 and don't hesitate to reload your Maven project if needed**.
-
-### 1 - Setting up Tomcat server
-
-To run patient-jakartaEE, you can use a Tomcat server, you can follow those instructions :
-
-1. Go to Apache website and download the lastest version of Tomcat : https://tomcat.apache.org/download-10.cgi
-
-2. install "Smart Tomcat" plugin on your IDE (I personnaly use IntellJ), it will facilitate Tomcat management.
-
-<img src="src/main/webapp/WEB-INF/assets/images/smart-tomcat-plugin.jpeg" alt="how to download smart tomcat plugin" width="1000">
-
-3. click on "edit configurations" at the top right of the IDE and add a new smart tomcat
-
-<img src="src/main/webapp/WEB-INF/assets/images/start-smart-tomcat.jpeg" alt="how to start smart tomcat" width="1000">
-
-- Name : you can choose the server name, here that "Unnamed".
-- Tomcat Server : select the installation directory of Tomcat on your computer.
-- Deployment directory : you must select the path to the "webapp" directory of this project.
-- Context path : you can choose your own app root path.
-
-4. Validate your settings and start the server. Then, go to http://localhost:8080/patient-jee to access the application.
-
-<img src="src/main/webapp/WEB-INF/assets/images/server-started.jpeg" alt="how to start smart tomcat" width="400">
+This patient management app is made with Java Enterprise Edition with JakartaEE framework.
 
 
-### 2 - Setting up database connection
+## Summary
 
-1. To make a database and fill data inside of it, you can use mySql queries that you can find inside of "utils" folder
-   and paste it in WorkBench for example.
+1. How to start this project
+2. Main functionalities
+3. About
 
+# Main functionalities:
 
-<img src="src/main/webapp/WEB-INF/assets/images/workbench.jpeg" alt="workbench view" width="1000">
-
-
-
-2. Add a "secure.properties" file to resources folder :
-
-<img src="src/main/webapp/WEB-INF/assets/images/secure.properties.jpeg" alt="secure.properties is added to resources folder" width="400">
+A user that do not have an account can have access to all patient list without details.
+We just have to create an account to get an account, in this case we'll be able to make CRUD operations ( add a patient, delete a consultations etc ...)
 
 
-Then specify inside of it the username and password that you use to connect to MySql :
+# How it's work ?
+
+The app generate a .war file, which need an external server to be deployed (Tomcat in our case).
+
+In the DockerFile, we make sur to use Maven to get the war file with bytes files, which is copied and pasted into tomcat.
+
+
+# How to start this project ?
+
+You have to use Docker to deploy locally the app, you must follow those simple steps below :
+
+1. add "secure.properties" file in the resources package :
+
+<img src="src/main/resources/for-read-me/secure.properties_file.png" alt="secure.properties view" width="1000">
+
+add this inside of it (  be free to replace existing data  ) : 
+
 ```
-hibernate.connection.username = example
-hibernate.connection.password = example
-hibernate.connection.db-url=jdbc:mysql://localhost:3306/patient_db
+hibernate.connection.username = myuser
+hibernate.connection.password = 1234
+
 ```
 
+1. add ".env" file for docker-compose.yml ( be free to replace existing data )
+
+<img src="src/main/resources/for-read-me/.env_file.png" alt=".env place view" width="1000">
+
+add this inside of it (  be free to replace existing data  ) :
 
 
+```
+DB_HOST=db
+DB_PORT=3306
+DB_NAME=patients_db
+DB_USER=myuser
+DB_PASSWORD=1234
+TOMCAT_PORT=8080
+MYSQL_DATABASE=patients_db
+MYSQL_USER=myuser
+MYSQL_PASSWORD=1234
+MYSQL_ROOT_PASSWORD=1234
+MYSQL_PORT=3306
+PMA_HOST=db
+PMA_PORT=3306
+MYSQL_ROOT_PASSWORD=1234
+PMA_PORT=8081
+
+
+```
+
+
+1. open Docker desktop to get docker deamon
+
+2. run in your terminal "docker-compose up --build"
+
+5. see you at http://localhost:8080/patients-jee !

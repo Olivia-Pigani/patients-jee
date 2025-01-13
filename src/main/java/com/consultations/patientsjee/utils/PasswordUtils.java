@@ -13,9 +13,9 @@ public class PasswordUtils {
         return salt;
     }
 
-    public static byte[] hashPassword(final char[] password, final byte[] salt, final int iterations, final int hashLenght){
+    public static byte[] hashPassword(final char[] password, final byte[] salt, final int iterations, final int hashLength){
         try {
-            PBEKeySpec spec = new PBEKeySpec(password,salt,iterations,hashLenght);
+            PBEKeySpec spec = new PBEKeySpec(password,salt,iterations,hashLength);
             SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             return secretKeyFactory.generateSecret(spec).getEncoded();
         }catch (Exception e){
